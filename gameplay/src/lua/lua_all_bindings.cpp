@@ -46,6 +46,7 @@ void lua_RegisterAllBindings()
     luaRegister_Game();
     luaRegister_Gamepad();
     luaRegister_Gesture();
+    luaRegister_HMD();
     luaRegister_HeightField();
     luaRegister_Image();
     luaRegister_ImageControl();
@@ -123,6 +124,10 @@ void lua_RegisterAllBindings()
     luaRegister_Transform();
     luaRegister_TransformListener();
     luaRegister_Uniform();
+    luaRegister_VRController();
+    luaRegister_VRDevice();
+    luaRegister_VRLatencyTester();
+    luaRegister_VRSensor();
     luaRegister_Vector2();
     luaRegister_Vector3();
     luaRegister_Vector4();

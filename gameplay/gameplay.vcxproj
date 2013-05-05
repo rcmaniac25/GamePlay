@@ -90,6 +90,7 @@
     <ClCompile Include="src\gameplay-main-linux.cpp" />
     <ClCompile Include="src\gameplay-main-windows.cpp" />
     <ClCompile Include="src\HeightField.cpp" />
+    <ClCompile Include="src\HMD.cpp" />
     <ClCompile Include="src\Image.cpp" />
     <ClCompile Include="src\ImageControl.cpp" />
     <ClCompile Include="src\Joint.cpp" />
@@ -158,6 +159,9 @@
     <ClCompile Include="src\lua\lua_GestureGestureEvent.cpp" />
     <ClCompile Include="src\lua\lua_Global.cpp" />
     <ClCompile Include="src\lua\lua_HeightField.cpp" />
+    <ClCompile Include="src\lua\lua_HMD.cpp" />
+    <ClCompile Include="src\lua\lua_HMDRenderMode.cpp" />
+    <ClCompile Include="src\lua\lua_HMDRenderState.cpp" />
     <ClCompile Include="src\lua\lua_Image.cpp" />
     <ClCompile Include="src\lua\lua_ImageControl.cpp" />
     <ClCompile Include="src\lua\lua_ImageFormat.cpp" />
@@ -268,6 +272,12 @@
     <ClCompile Include="src\lua\lua_VertexFormatElement.cpp" />
     <ClCompile Include="src\lua\lua_VertexFormatUsage.cpp" />
     <ClCompile Include="src\lua\lua_VerticalLayout.cpp" />
+    <ClCompile Include="src\lua\lua_VRController.cpp" />
+    <ClCompile Include="src\lua\lua_VRDevice.cpp" />
+    <ClCompile Include="src\lua\lua_VRDeviceVREvent.cpp" />
+    <ClCompile Include="src\lua\lua_VRDeviceVRTypes.cpp" />
+    <ClCompile Include="src\lua\lua_VRLatencyTester.cpp" />
+    <ClCompile Include="src\lua\lua_VRSensor.cpp" />
     <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\MathUtil.cpp" />
     <ClCompile Include="src\MeshBatch.cpp" />
@@ -330,6 +340,10 @@
     <ClCompile Include="src\VertexAttributeBinding.cpp" />
     <ClCompile Include="src\VertexFormat.cpp" />
     <ClCompile Include="src\VerticalLayout.cpp" />
+    <ClCompile Include="src\VRController.cpp" />
+    <ClCompile Include="src\VRDevice.cpp" />
+    <ClCompile Include="src\VRLatencyTester.cpp" />
+    <ClCompile Include="src\VRSensor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AbsoluteLayout.h" />
@@ -370,6 +384,7 @@
     <ClInclude Include="src\gameplay.h" />
     <ClInclude Include="src\Gesture.h" />
     <ClInclude Include="src\HeightField.h" />
+    <ClInclude Include="src\HMD.h" />
     <ClInclude Include="src\Image.h" />
     <ClInclude Include="src\ImageControl.h" />
     <ClInclude Include="src\Joint.h" />
@@ -439,6 +454,9 @@
     <ClInclude Include="src\lua\lua_GestureGestureEvent.h" />
     <ClInclude Include="src\lua\lua_Global.h" />
     <ClInclude Include="src\lua\lua_HeightField.h" />
+    <ClInclude Include="src\lua\lua_HMD.h" />
+    <ClInclude Include="src\lua\lua_HMDRenderMode.h" />
+    <ClInclude Include="src\lua\lua_HMDRenderState.h" />
     <ClInclude Include="src\lua\lua_Image.h" />
     <ClInclude Include="src\lua\lua_ImageControl.h" />
     <ClInclude Include="src\lua\lua_ImageFormat.h" />
@@ -549,6 +567,12 @@
     <ClInclude Include="src\lua\lua_VertexFormatElement.h" />
     <ClInclude Include="src\lua\lua_VertexFormatUsage.h" />
     <ClInclude Include="src\lua\lua_VerticalLayout.h" />
+    <ClInclude Include="src\lua\lua_VRController.h" />
+    <ClInclude Include="src\lua\lua_VRDevice.h" />
+    <ClInclude Include="src\lua\lua_VRDeviceVREvent.h" />
+    <ClInclude Include="src\lua\lua_VRDeviceVRTypes.h" />
+    <ClInclude Include="src\lua\lua_VRLatencyTester.h" />
+    <ClInclude Include="src\lua\lua_VRSensor.h" />
     <ClInclude Include="src\Material.h" />
     <ClInclude Include="src\MathUtil.h" />
     <ClInclude Include="src\MeshBatch.h" />
@@ -611,6 +635,10 @@
     <ClInclude Include="src\VertexAttributeBinding.h" />
     <ClInclude Include="src\VertexFormat.h" />
     <ClInclude Include="src\VerticalLayout.h" />
+    <ClInclude Include="src\VRController.h" />
+    <ClInclude Include="src\VRDevice.h" />
+    <ClInclude Include="src\VRLatencyTester.h" />
+    <ClInclude Include="src\VRSensor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\logo_black.png" />
@@ -862,8 +890,8 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;..\external-deps\lua\include;..\external-deps\bullet\include;..\external-deps\openal\include\AL;..\external-deps\alut\include\AL;..\external-deps\oggvorbis\include;..\external-deps\glew\include;..\external-deps\libpng\include;..\external-deps\zlib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;WIN32;_DEBUG;_LIB;USE_OCULUS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;..\external-deps\lua\include;..\external-deps\bullet\include;..\external-deps\openal\include\AL;..\external-deps\alut\include\AL;..\external-deps\oggvorbis\include;..\external-deps\glew\include;..\external-deps\libpng\include;..\external-deps\zlib\include;..\external-deps\libovr\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>
       </RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -937,8 +965,8 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;WIN32;_DEBUG;_LIB;GAMEPLAY_MEM_LEAK_DETECTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;..\external-deps\lua\include;..\external-deps\bullet\include;..\external-deps\openal\include\AL;..\external-deps\alut\include\AL;..\external-deps\oggvorbis\include;..\external-deps\glew\include;..\external-deps\libpng\include;..\external-deps\zlib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_ITERATOR_DEBUG_LEVEL=0;WIN32;_DEBUG;_LIB;USE_OCULUS;GAMEPLAY_MEM_LEAK_DETECTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;..\external-deps\lua\include;..\external-deps\bullet\include;..\external-deps\openal\include\AL;..\external-deps\alut\include\AL;..\external-deps\oggvorbis\include;..\external-deps\glew\include;..\external-deps\libpng\include;..\external-deps\zlib\include;..\external-deps\libovr\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
@@ -1024,8 +1052,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;..\external-deps\lua\include;..\external-deps\bullet\include;..\external-deps\openal\include\AL;..\external-deps\alut\include\AL;..\external-deps\oggvorbis\include;..\external-deps\glew\include;..\external-deps\libpng\include;..\external-deps\zlib\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;USE_OCULUS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;..\external-deps\lua\include;..\external-deps\bullet\include;..\external-deps\openal\include\AL;..\external-deps\alut\include\AL;..\external-deps\oggvorbis\include;..\external-deps\glew\include;..\external-deps\libpng\include;..\external-deps\zlib\include;..\external-deps\libovr\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>
       </DebugInformationFormat>
     </ClCompile>

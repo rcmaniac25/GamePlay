@@ -40,8 +40,9 @@ LOCAL_SRC_FILES := \
     Game.cpp \
     Gamepad.cpp \
     HeightField.cpp \
+    HMD.cpp \
     Image.cpp \
-	ImageControl.cpp \
+    ImageControl.cpp \
     Joint.cpp \
     Joystick.cpp \
     Label.cpp \
@@ -106,6 +107,10 @@ LOCAL_SRC_FILES := \
     VertexAttributeBinding.cpp \
     VertexFormat.cpp \
     VerticalLayout.cpp \
+    VRController.cpp \
+    VRDevice.cpp \
+    VRLatencyTester.cpp \
+    VRSensor.cpp \
     lua/lua_AbsoluteLayout.cpp \
     lua/lua_AIAgent.cpp \
     lua/lua_AIAgentListener.cpp \
@@ -166,6 +171,9 @@ LOCAL_SRC_FILES := \
     lua/lua_GestureGestureEvent.cpp \
     lua/lua_Global.cpp \
     lua/lua_HeightField.cpp \
+    lua/lua_HMD.cpp \
+    lua/lua_HMDRenderMode.cpp \
+    lua/lua_HMDRenderState.cpp \
     lua/lua_Image.cpp \
     lua/lua_ImageControl.cpp \
     lua/lua_ImageFormat.cpp \
@@ -275,7 +283,13 @@ LOCAL_SRC_FILES := \
     lua/lua_VertexFormat.cpp \
     lua/lua_VertexFormatElement.cpp \
     lua/lua_VertexFormatUsage.cpp \
-    lua/lua_VerticalLayout.cpp
+    lua/lua_VerticalLayout.cpp \
+    lua/lua_VRController.cpp \
+    lua/lua_VRDevice.cpp \
+    lua/lua_VRDeviceVREvent.cpp \
+    lua/lua_VRDeviceVRTypes.cpp \
+    lua/lua_VRLatencyTester.cpp \
+    lua/lua_VRSensor.cpp
 
     
 LOCAL_CFLAGS := -D__ANDROID__ -I"../../external-deps/lua/include" -I"../../external-deps/bullet/include" -I"../../external-deps/libpng/include" -I"../../external-deps/oggvorbis/include" -I"../../external-deps/openal/include"

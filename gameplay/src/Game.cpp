@@ -23,8 +23,9 @@ Game::Game()
       _frameLastFPS(0), _frameCount(0), _frameRate(0),
       _clearDepth(1.0f), _clearStencil(0), _properties(NULL),
       _animationController(NULL), _audioController(NULL),
-      _physicsController(NULL), _aiController(NULL), _audioListener(NULL),
-      _timeEvents(NULL), _scriptController(NULL), _scriptListeners(NULL)
+      _physicsController(NULL), _aiController(NULL), _vrController(NULL), 
+      _audioListener(NULL), _timeEvents(NULL), _scriptController(NULL), 
+      _scriptListeners(NULL)
 {
     GP_ASSERT(__gameInstance == NULL);
     __gameInstance = this;
@@ -114,6 +115,10 @@ bool Game::startup()
     _scriptController = new ScriptController();
     _scriptController->initialize();
 
+    _vrController = new VRController();
+    _vrController->initialize();
+    _vrController->pollDevices();
+
     // Load any gamepads, ui or physical.
     loadGamepads();
 
@@ -158,6 +163,7 @@ void Game::shutdown()
         GP_ASSERT(_audioController);
         GP_ASSERT(_physicsController);
         GP_ASSERT(_aiController);
+        GP_ASSERT(_vrController);
 
         Platform::signalShutdown();
 
@@ -182,6 +188,9 @@ void Game::shutdown()
             Gamepad* gamepad = Gamepad::getGamepad(i, false);
             SAFE_DELETE(gamepad);
         }
+
+        _vrController->finalize();
+        SAFE_DELETE(_vrController);
 
         _animationController->finalize();
         SAFE_DELETE(_animationController);
@@ -300,6 +309,7 @@ void Game::frame()
         GP_ASSERT(_audioController);
         GP_ASSERT(_physicsController);
         GP_ASSERT(_aiController);
+        GP_ASSERT(_vrController);
 
         // Update Time.
         float elapsedTime = (frameTime - lastFrameTime);
@@ -314,11 +324,24 @@ void Game::frame()
         // Update AI.
         _aiController->update(elapsedTime);
 
+        // Check for VR updates
+        _vrController->pollDevices();
+
         // Update gamepads.
         Gamepad::updateInternal(elapsedTime);
 
+#ifdef USE_OCULUS
+        // Lock VR message handlers so the sensors don't change while updating
+        _vrController->lockMessages();
+#endif
+
         // Application Update.
         update(elapsedTime);
+
+#ifdef USE_OCULUS
+        // Release VR messages
+        _vrController->releaseMessages();
+#endif
 
         // Update forms.
         Form::updateInternal(elapsedTime);
@@ -330,7 +353,19 @@ void Game::frame()
         _audioController->update(elapsedTime);
 
         // Graphics Rendering.
+#ifdef USE_OCULUS
+        _vrController->prepareRender(0);
+#endif
         render(elapsedTime);
+#ifdef USE_OCULUS
+        _vrController->finalizeRender(0);
+        if(_vrController->shouldRenderStereo())
+        {
+            _vrController->prepareRender(1);
+            render(elapsedTime);
+            _vrController->finalizeRender(1);
+        }
+#endif
 
         // Run script render.
         _scriptController->render(elapsedTime);
@@ -346,11 +381,24 @@ void Game::frame()
     }
 	else if (_state == Game::PAUSED)
     {
+        // Check for VR updates
+        _vrController->pollDevices();
+
         // Update gamepads.
         Gamepad::updateInternal(0);
 
+#ifdef USE_OCULUS
+        // Lock VR message handlers so the sensors don't change while updating
+        _vrController->lockMessages();
+#endif
+
         // Application Update.
         update(0);
+
+#ifdef USE_OCULUS
+        // Release VR messages
+        _vrController->releaseMessages();
+#endif
 
         // Update forms.
         Form::updateInternal(0);
@@ -359,7 +407,19 @@ void Game::frame()
         _scriptController->update(0);
 
         // Graphics Rendering.
+#ifdef USE_OCULUS
+        _vrController->prepareRender(0);
+#endif
         render(0);
+#ifdef USE_OCULUS
+        _vrController->finalizeRender(0);
+        if(_vrController->shouldRenderStereo())
+        {
+            _vrController->prepareRender(1);
+            render(0);
+            _vrController->finalizeRender(1);
+        }
+#endif
 
         // Script render.
         _scriptController->render(0);
@@ -510,6 +570,10 @@ void Game::gestureTapEvent(int x, int y)
 }
 
 void Game::gamepadEvent(Gamepad::GamepadEvent evt, Gamepad* gamepad)
+{
+}
+
+void Game::vrEvent(VRDevice::VREvent evt, VRDevice* vr)
 {
 }
 

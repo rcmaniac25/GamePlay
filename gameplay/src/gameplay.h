@@ -27,6 +27,13 @@
 #include "BoundingBox.h"
 #include "Curve.h"
 
+// Virtual Reality
+#include "VRController.h"
+#include "VRDevice.h"
+#include "HMD.h"
+#include "VRLatencyTester.h"
+#include "VRSensor.h"
+
 // Graphics
 #include "Texture.h"
 #include "Image.h"

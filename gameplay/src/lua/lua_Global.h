@@ -18,6 +18,8 @@
 #include "lua_GamepadButtonMapping.h"
 #include "lua_GamepadGamepadEvent.h"
 #include "lua_GestureGestureEvent.h"
+#include "lua_HMDRenderMode.h"
+#include "lua_HMDRenderState.h"
 #include "lua_ImageFormat.h"
 #include "lua_KeyboardKey.h"
 #include "lua_KeyboardKeyEvent.h"
@@ -44,6 +46,8 @@
 #include "lua_TextureFormat.h"
 #include "lua_TextureWrap.h"
 #include "lua_TouchTouchEvent.h"
+#include "lua_VRDeviceVREvent.h"
+#include "lua_VRDeviceVRTypes.h"
 #include "lua_VertexFormatUsage.h"
 
 namespace gameplay

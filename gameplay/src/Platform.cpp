@@ -104,4 +104,10 @@ void Platform::gamepadEventDisconnectedInternal(GamepadHandle handle)
     Gamepad::remove(handle);
 }
 
+void Platform::vrEventInternal(VRDevice::VREvent evt, VRDevice* vr)
+{
+    Game::getInstance()->vrEvent(evt, vr);
+    Game::getInstance()->getScriptController()->vrEvent(evt, vr);
+}
+
 }

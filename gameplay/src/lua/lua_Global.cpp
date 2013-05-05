@@ -139,6 +139,9 @@ void luaRegister_lua_Global()
     gameplay::ScriptUtil::setGlobalHierarchyPair("Transform::Listener", "PhysicsGhostObject");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Transform::Listener", "PhysicsRigidBody");
     gameplay::ScriptUtil::setGlobalHierarchyPair("Transform::Listener", "Terrain");
+    gameplay::ScriptUtil::setGlobalHierarchyPair("VRDevice", "HMD");
+    gameplay::ScriptUtil::setGlobalHierarchyPair("VRDevice", "VRLatencyTester");
+    gameplay::ScriptUtil::setGlobalHierarchyPair("VRDevice", "VRSensor");
     gameplay::ScriptUtil::addStringFromEnumConversionFunction(&gameplay::lua_stringFromEnumGlobal);
 
     // Register enumeration AIMessage::ParameterType.
@@ -399,6 +402,25 @@ void luaRegister_lua_Global()
         gameplay::ScriptUtil::registerConstantString("GESTURE_SWIPE", "GESTURE_SWIPE", scopePath);
         gameplay::ScriptUtil::registerConstantString("GESTURE_PINCH", "GESTURE_PINCH", scopePath);
         gameplay::ScriptUtil::registerConstantString("GESTURE_ANY_SUPPORTED", "GESTURE_ANY_SUPPORTED", scopePath);
+    }
+
+    // Register enumeration HMD::RenderMode.
+    {
+        std::vector<std::string> scopePath;
+        scopePath.push_back("HMD");
+        gameplay::ScriptUtil::registerConstantString("MONO_MODE", "MONO_MODE", scopePath);
+        gameplay::ScriptUtil::registerConstantString("STEREO_MODE", "STEREO_MODE", scopePath);
+        gameplay::ScriptUtil::registerConstantString("LEFT_RIGHT_MODE", "LEFT_RIGHT_MODE", scopePath);
+    }
+
+    // Register enumeration HMD::RenderState.
+    {
+        std::vector<std::string> scopePath;
+        scopePath.push_back("HMD");
+        gameplay::ScriptUtil::registerConstantString("LEFT_EYE_RENDERING", "LEFT_EYE_RENDERING", scopePath);
+        gameplay::ScriptUtil::registerConstantString("RIGHT_EYE_RENDERING", "RIGHT_EYE_RENDERING", scopePath);
+        gameplay::ScriptUtil::registerConstantString("MONO_RENDERING", "MONO_RENDERING", scopePath);
+        gameplay::ScriptUtil::registerConstantString("NOT_RENDERING", "NOT_RENDERING", scopePath);
     }
 
     // Register enumeration Image::Format.
@@ -833,6 +855,29 @@ void luaRegister_lua_Global()
         gameplay::ScriptUtil::registerConstantString("TOUCH_MOVE", "TOUCH_MOVE", scopePath);
     }
 
+    // Register enumeration VRDevice::VREvent.
+    {
+        std::vector<std::string> scopePath;
+        scopePath.push_back("VRDevice");
+        gameplay::ScriptUtil::registerConstantString("CONNECTED_EVENT", "CONNECTED_EVENT", scopePath);
+        gameplay::ScriptUtil::registerConstantString("DISCONNECTED_EVENT", "DISCONNECTED_EVENT", scopePath);
+        gameplay::ScriptUtil::registerConstantString("SENSOR_EVENT", "SENSOR_EVENT", scopePath);
+        gameplay::ScriptUtil::registerConstantString("LATENCY_TESTER_SAMPLES_EVENT", "LATENCY_TESTER_SAMPLES_EVENT", scopePath);
+        gameplay::ScriptUtil::registerConstantString("LATENCY_TESTER_COLOR_DETECTED_EVENT", "LATENCY_TESTER_COLOR_DETECTED_EVENT", scopePath);
+        gameplay::ScriptUtil::registerConstantString("LATENCY_TESTER_STARTED_EVENT", "LATENCY_TESTER_STARTED_EVENT", scopePath);
+        gameplay::ScriptUtil::registerConstantString("LATENCY_TESTER_BUTTON_EVENT", "LATENCY_TESTER_BUTTON_EVENT", scopePath);
+    }
+
+    // Register enumeration VRDevice::VRTypes.
+    {
+        std::vector<std::string> scopePath;
+        scopePath.push_back("VRDevice");
+        gameplay::ScriptUtil::registerConstantString("HMD_TYPE", "HMD_TYPE", scopePath);
+        gameplay::ScriptUtil::registerConstantString("SENSOR_TYPE", "SENSOR_TYPE", scopePath);
+        gameplay::ScriptUtil::registerConstantString("LATENCY_TESTER_TYPE", "LATENCY_TESTER_TYPE", scopePath);
+        gameplay::ScriptUtil::registerConstantString("ALL_TYPES", "ALL_TYPES", scopePath);
+    }
+
     // Register enumeration VertexFormat::Usage.
     {
         std::vector<std::string> scopePath;
@@ -893,6 +938,10 @@ const char* lua_stringFromEnumGlobal(std::string& enumname, unsigned int value)
         return lua_stringFromEnum_GamepadGamepadEvent((Gamepad::GamepadEvent)value);
     if (enumname == "Gesture::GestureEvent")
         return lua_stringFromEnum_GestureGestureEvent((Gesture::GestureEvent)value);
+    if (enumname == "HMD::RenderMode")
+        return lua_stringFromEnum_HMDRenderMode((HMD::RenderMode)value);
+    if (enumname == "HMD::RenderState")
+        return lua_stringFromEnum_HMDRenderState((HMD::RenderState)value);
     if (enumname == "Image::Format")
         return lua_stringFromEnum_ImageFormat((Image::Format)value);
     if (enumname == "Keyboard::Key")
@@ -945,6 +994,10 @@ const char* lua_stringFromEnumGlobal(std::string& enumname, unsigned int value)
         return lua_stringFromEnum_TextureWrap((Texture::Wrap)value);
     if (enumname == "Touch::TouchEvent")
         return lua_stringFromEnum_TouchTouchEvent((Touch::TouchEvent)value);
+    if (enumname == "VRDevice::VREvent")
+        return lua_stringFromEnum_VRDeviceVREvent((VRDevice::VREvent)value);
+    if (enumname == "VRDevice::VRTypes")
+        return lua_stringFromEnum_VRDeviceVRTypes((VRDevice::VRTypes)value);
     if (enumname == "VertexFormat::Usage")
         return lua_stringFromEnum_VertexFormatUsage((VertexFormat::Usage)value);
 

@@ -58,9 +58,15 @@ inline ScriptController* Game::getScriptController() const
 {
     return _scriptController;
 }
+
 inline AIController* Game::getAIController() const
 {
     return _aiController;
+}
+
+inline VRController* Game::getVRController() const
+{
+    return _vrController;
 }
 
 template <class T>
@@ -144,6 +150,16 @@ inline unsigned int Game::getGamepadCount() const
 inline Gamepad* Game::getGamepad(unsigned int index, bool preferPhysical) const
 {
     return Gamepad::getGamepad(index, preferPhysical);
+}
+
+inline unsigned int Game::getVRDeviceCount(VRDevice::VRTypes type) const
+{
+    return Game::getInstance()->getVRController()->getDeviceCount(type);
+}
+
+inline VRDevice* Game::getVRDevice(unsigned int index, VRDevice::VRTypes type) const
+{
+    return Game::getInstance()->getVRController()->getDevice(index, type);
 }
 
 inline void Game::displayKeyboard(bool display)

@@ -30,6 +30,9 @@ int lua_Game_getPhysicsController(lua_State* state);
 int lua_Game_getRawSensorValues(lua_State* state);
 int lua_Game_getScriptController(lua_State* state);
 int lua_Game_getState(lua_State* state);
+int lua_Game_getVRController(lua_State* state);
+int lua_Game_getVRDevice(lua_State* state);
+int lua_Game_getVRDeviceCount(lua_State* state);
 int lua_Game_getViewport(lua_State* state);
 int lua_Game_getWidth(lua_State* state);
 int lua_Game_hasAccelerometer(lua_State* state);
@@ -63,6 +66,7 @@ int lua_Game_static_isVsync(lua_State* state);
 int lua_Game_static_setVsync(lua_State* state);
 int lua_Game_touchEvent(lua_State* state);
 int lua_Game_unregisterGesture(lua_State* state);
+int lua_Game_vrEvent(lua_State* state);
 
 void luaRegister_Game();
 

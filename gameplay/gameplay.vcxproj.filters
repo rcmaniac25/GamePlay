@@ -852,6 +852,48 @@
     <ClCompile Include="src\lua\lua_RenderStateCullFaceSide.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
+    <ClCompile Include="src\HMD.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VRController.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VRDevice.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VRLatencyTester.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VRSensor.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lua_HMD.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lua_HMDRenderMode.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lua_HMDRenderState.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lua_VRController.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lua_VRDevice.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lua_VRDeviceVREvent.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lua_VRDeviceVRTypes.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lua_VRLatencyTester.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lua\lua_VRSensor.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Animation.h">
@@ -1689,6 +1731,48 @@
       <Filter>src\lua</Filter>
     </ClInclude>
     <ClInclude Include="src\lua\lua_RenderStateCullFaceSide.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HMD.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VRController.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VRDevice.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VRLatencyTester.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VRSensor.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua\lua_HMD.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua\lua_HMDRenderMode.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua\lua_HMDRenderState.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua\lua_VRController.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua\lua_VRDevice.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua\lua_VRDeviceVREvent.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua\lua_VRDeviceVRTypes.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua\lua_VRLatencyTester.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lua\lua_VRSensor.h">
       <Filter>src\lua</Filter>
     </ClInclude>
   </ItemGroup>

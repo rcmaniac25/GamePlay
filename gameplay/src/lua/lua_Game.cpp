@@ -15,6 +15,8 @@
 #include "lua_KeyboardKeyEvent.h"
 #include "lua_MouseMouseEvent.h"
 #include "lua_TouchTouchEvent.h"
+#include "lua_VRDeviceVREvent.h"
+#include "lua_VRDeviceVRTypes.h"
 
 namespace gameplay
 {
@@ -47,6 +49,9 @@ void luaRegister_Game()
         {"getRawSensorValues", lua_Game_getRawSensorValues},
         {"getScriptController", lua_Game_getScriptController},
         {"getState", lua_Game_getState},
+        {"getVRController", lua_Game_getVRController},
+        {"getVRDevice", lua_Game_getVRDevice},
+        {"getVRDeviceCount", lua_Game_getVRDeviceCount},
         {"getViewport", lua_Game_getViewport},
         {"getWidth", lua_Game_getWidth},
         {"hasAccelerometer", lua_Game_hasAccelerometer},
@@ -75,6 +80,7 @@ void luaRegister_Game()
         {"setViewport", lua_Game_setViewport},
         {"touchEvent", lua_Game_touchEvent},
         {"unregisterGesture", lua_Game_unregisterGesture},
+        {"vrEvent", lua_Game_vrEvent},
         {NULL, NULL}
     };
     const luaL_Reg lua_statics[] = 
@@ -1198,6 +1204,188 @@ int lua_Game_getState(lua_State* state)
         default:
         {
             lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Game_getVRController(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Game* instance = getInstance(state);
+                void* returnPtr = (void*)instance->getVRController();
+                if (returnPtr)
+                {
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    object->instance = returnPtr;
+                    object->owns = false;
+                    luaL_getmetatable(state, "VRController");
+                    lua_setmetatable(state, -2);
+                }
+                else
+                {
+                    lua_pushnil(state);
+                }
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Game_getVRController - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Game_getVRDevice(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER)
+            {
+                // Get parameter 1 off the stack.
+                unsigned int param1 = (unsigned int)luaL_checkunsigned(state, 2);
+
+                Game* instance = getInstance(state);
+                void* returnPtr = (void*)instance->getVRDevice(param1);
+                if (returnPtr)
+                {
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    object->instance = returnPtr;
+                    object->owns = false;
+                    luaL_getmetatable(state, "VRDevice");
+                    lua_setmetatable(state, -2);
+                }
+                else
+                {
+                    lua_pushnil(state);
+                }
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Game_getVRDevice - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 3:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                lua_type(state, 2) == LUA_TNUMBER &&
+                (lua_type(state, 3) == LUA_TSTRING || lua_type(state, 3) == LUA_TNIL))
+            {
+                // Get parameter 1 off the stack.
+                unsigned int param1 = (unsigned int)luaL_checkunsigned(state, 2);
+
+                // Get parameter 2 off the stack.
+                VRDevice::VRTypes param2 = (VRDevice::VRTypes)lua_enumFromString_VRDeviceVRTypes(luaL_checkstring(state, 3));
+
+                Game* instance = getInstance(state);
+                void* returnPtr = (void*)instance->getVRDevice(param1, param2);
+                if (returnPtr)
+                {
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    object->instance = returnPtr;
+                    object->owns = false;
+                    luaL_getmetatable(state, "VRDevice");
+                    lua_setmetatable(state, -2);
+                }
+                else
+                {
+                    lua_pushnil(state);
+                }
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Game_getVRDevice - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 2 or 3).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Game_getVRDeviceCount(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                Game* instance = getInstance(state);
+                unsigned int result = instance->getVRDeviceCount();
+
+                // Push the return value onto the stack.
+                lua_pushunsigned(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Game_getVRDeviceCount - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 2:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                (lua_type(state, 2) == LUA_TSTRING || lua_type(state, 2) == LUA_TNIL))
+            {
+                // Get parameter 1 off the stack.
+                VRDevice::VRTypes param1 = (VRDevice::VRTypes)lua_enumFromString_VRDeviceVRTypes(luaL_checkstring(state, 2));
+
+                Game* instance = getInstance(state);
+                unsigned int result = instance->getVRDeviceCount(param1);
+
+                // Push the return value onto the stack.
+                lua_pushunsigned(state, result);
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_Game_getVRDeviceCount - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1 or 2).");
             lua_error(state);
             break;
         }
@@ -2402,6 +2590,52 @@ int lua_Game_unregisterGesture(lua_State* state)
         default:
         {
             lua_pushstring(state, "Invalid number of parameters (expected 2).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_Game_vrEvent(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 3:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA) &&
+                (lua_type(state, 2) == LUA_TSTRING || lua_type(state, 2) == LUA_TNIL) &&
+                (lua_type(state, 3) == LUA_TUSERDATA || lua_type(state, 3) == LUA_TTABLE || lua_type(state, 3) == LUA_TNIL))
+            {
+                // Get parameter 1 off the stack.
+                VRDevice::VREvent param1 = (VRDevice::VREvent)lua_enumFromString_VRDeviceVREvent(luaL_checkstring(state, 2));
+
+                // Get parameter 2 off the stack.
+                bool param2Valid;
+                gameplay::ScriptUtil::LuaArray<VRDevice> param2 = gameplay::ScriptUtil::getObjectPointer<VRDevice>(3, "VRDevice", false, &param2Valid);
+                if (!param2Valid)
+                {
+                    lua_pushstring(state, "Failed to convert parameter 2 to type 'VRDevice'.");
+                    lua_error(state);
+                }
+
+                Game* instance = getInstance(state);
+                instance->vrEvent(param1, param2);
+                
+                return 0;
+            }
+
+            lua_pushstring(state, "lua_Game_vrEvent - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 3).");
             lua_error(state);
             break;
         }

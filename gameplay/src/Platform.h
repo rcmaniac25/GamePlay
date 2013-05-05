@@ -7,6 +7,7 @@
 #include "Touch.h"
 #include "Gesture.h"
 #include "Gamepad.h"
+#include "VRController.h"
 
 namespace gameplay
 {
@@ -25,6 +26,7 @@ public:
 
     friend class Game;
     friend class Gamepad;
+    friend class VRController;
     friend class ScreenDisplayer;
 
     /**
@@ -375,6 +377,13 @@ public:
      * @script{ignore}
      */
     static void pollGamepadState(Gamepad* gamepad);
+
+    /**
+     * Internal method used only from static code in various platform implementation.
+     *
+     * @script{ignore}
+     */
+    static void vrEventInternal(VRDevice::VREvent evt, VRDevice* vr);
 
    /**
      * Internal method used only from static code in various platform implementation.

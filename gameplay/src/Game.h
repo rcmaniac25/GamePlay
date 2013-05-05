@@ -10,6 +10,7 @@
 #include "AnimationController.h"
 #include "PhysicsController.h"
 #include "AIController.h"
+#include "VRController.h"
 #include "AudioListener.h"
 #include "Rectangle.h"
 #include "Vector4.h"
@@ -259,6 +260,14 @@ public:
     inline ScriptController* getScriptController() const;
 
     /**
+     * Gets the VR controller for managing control of virtual
+     * reality associated with the game.
+     * 
+     * @return The VR controller for this game.
+     */
+    inline VRController* getVRController() const;
+
+    /**
      * Gets the audio listener for 3D audio.
      * 
      * @return The audio listener for this game.
@@ -474,6 +483,35 @@ public:
      * @return The gamepad at the specified index.
      */
     inline Gamepad* getGamepad(unsigned int index, bool preferPhysical = true) const;
+
+    /**
+     * VRDevice callback on VR events. Override to receive VRDevice::CONNECTED_EVENT 
+     * and VRDevice::DISCONNECTED_EVENT, and store the VRDevice* in order to poll it from update().
+     *
+     * @param evt The VR event that occurred.
+     * @param vr The VRDevice that generated the event.
+     */
+	virtual void vrEvent(VRDevice::VREvent evt, VRDevice* vr);
+
+	/**
+     * Gets the current number of VR devices currently connected to the system.
+     *
+	 * @param type The type of VRDevice to get the count of.
+     * @return The number of VR devices currently connected to the system.
+     */
+	inline unsigned int getVRDeviceCount(VRDevice::VRTypes type = VRDevice::ALL_TYPES) const;
+
+	/**
+     * Gets the VR device at the specified index. 
+     *
+     * The VR device index can change when connected and disconnected so you
+     * cannot rely on this other than iterating through them all to poll them.
+     *
+     * @param index The index of the VR device to retrieve.
+	 * @param type The type of VRDevice to get.
+     * @return The VR device at the specified index.
+     */
+	inline VRDevice* getVRDevice(unsigned int index, VRDevice::VRTypes type = VRDevice::ALL_TYPES) const;
 
     /**
 	 * Sets whether multi-sampling is to be enabled/disabled. Default is disabled.
@@ -737,6 +775,7 @@ private:
     AudioController* _audioController;          // Controls audio sources that are playing in the game.
     PhysicsController* _physicsController;      // Controls the simulation of a physics scene and entities.
     AIController* _aiController;                // Controls AI simulation.
+    VRController* _vrController;                // Controls VR interfaces.
     AudioListener* _audioListener;              // The audio listener in 3D space.
     std::priority_queue<TimeEvent, std::vector<TimeEvent>, std::less<TimeEvent> >* _timeEvents;     // Contains the scheduled time events.
     ScriptController* _scriptController;            // Controls the scripting engine.

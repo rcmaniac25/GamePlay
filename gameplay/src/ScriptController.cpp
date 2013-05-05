@@ -867,6 +867,13 @@ void ScriptController::gamepadEvent(Gamepad::GamepadEvent evt, Gamepad* gamepad,
         executeFunction<void>(list[i].c_str(), "[Gamepad::GamepadEvent]<Gamepad>", evt, gamepad);
 }
 
+void ScriptController::vrEvent(VRDevice::VREvent evt, VRDevice* vr)
+{
+    std::vector<std::string>& list = _callbacks[VR_EVENT];
+    for (size_t i = 0; i < list.size(); ++i)
+        executeFunction<void>(list[i].c_str(), "[VRDevice::VREvent]<VRDevice>", evt, vr);
+}
+
 void ScriptController::executeFunctionHelper(int resultCount, const char* func, const char* args, va_list* list)
 {
 	if (!_lua)
@@ -1050,6 +1057,8 @@ ScriptController::ScriptCallback ScriptController::toCallback(const char* name)
         return ScriptController::GESTURE_TAP_EVENT;
     else if (strcmp(name, "gamepadEvent") == 0)
         return ScriptController::GAMEPAD_EVENT;
+    else if (strcmp(name, "vrEvent") == 0)
+        return ScriptController::VR_EVENT;
     else
         return ScriptController::INVALID_CALLBACK;
 }

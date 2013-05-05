@@ -80,6 +80,8 @@ set(GAMEPLAY_SRC
     src/Gesture.h
     src/HeightField.cpp
     src/HeightField.h
+    src/HMD.cpp
+    src/HMD.h
     src/Image.cpp
     src/Image.h
     src/Image.inl
@@ -227,6 +229,14 @@ set(GAMEPLAY_SRC
     src/VertexFormat.h
     src/VerticalLayout.cpp
     src/VerticalLayout.h
+    src/VRController.cpp
+    src/VRController.h
+    src/VRDevice.cpp
+    src/VRDevice.h
+    src/VRLatencyTester.cpp
+    src/VRLatencyTester.h
+    src/VRSensor.cpp
+    src/VRSensor.h
 )
 
 set(GAMEPLAY_LUA
@@ -350,6 +360,12 @@ set(GAMEPLAY_LUA
     src/lua/lua_Global.h
     src/lua/lua_HeightField.cpp
     src/lua/lua_HeightField.h
+    src/lua/lua_HMD.cpp
+    src/lua/lua_HMD.h
+    src/lua/lua_HMDRenderMode.cpp
+    src/lua/lua_HMDRenderMode.h
+    src/lua/lua_HMDRenderState.cpp
+    src/lua/lua_HMDRenderState.h
     src/lua/lua_Image.cpp
     src/lua/lua_Image.h
     src/lua/lua_ImageControl.cpp
@@ -569,6 +585,18 @@ set(GAMEPLAY_LUA
     src/lua/lua_VertexFormatUsage.h
     src/lua/lua_VerticalLayout.cpp
     src/lua/lua_VerticalLayout.h
+    src/lua/lua_VRController.cpp
+    src/lua/lua_VRController.h
+    src/lua/lua_VRDevice.cpp
+    src/lua/lua_VRDevice.h
+    src/lua/lua_VRDeviceVREvent.cpp
+    src/lua/lua_VRDeviceVREvent.h
+    src/lua/lua_VRDeviceVRTypes.cpp
+    src/lua/lua_VRDeviceVRTypes.h
+    src/lua/lua_VRLatencyTester.cpp
+    src/lua/lua_VRLatencyTester.h
+    src/lua/lua_VRSensor.cpp
+    src/lua/lua_VRSensor.h
 )
 
 set(GAMEPLAY_RES

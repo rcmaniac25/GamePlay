@@ -774,6 +774,7 @@ private:
         GESTURE_PINCH_EVENT,
         GESTURE_TAP_EVENT,
         GAMEPAD_EVENT,
+        VR_EVENT,
         CALLBACK_COUNT,
         INVALID_CALLBACK = CALLBACK_COUNT
     };
@@ -908,6 +909,14 @@ private:
      * @param gamepad the gamepad the event occurred on
      */
     void gamepadEvent(Gamepad::GamepadEvent evt, Gamepad* gamepad, unsigned int analogIndex = 0);
+
+    /**
+     * Script VR callback on VRDevice events.
+     *
+     * @param evt The VR event that occurred.
+     * @param vr the VRDevice the event occurred on
+     */
+    void vrEvent(VRDevice::VREvent evt, VRDevice* vr);
 
     /**
      * Calls the specified Lua function using the given parameters.
