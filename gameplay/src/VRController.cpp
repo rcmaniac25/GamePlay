@@ -80,13 +80,112 @@ public:
 	}
 };
 
+//VR Allocator
+class OculusAllocator : public OVR::Allocator
+{
+public:
+	OculusAllocator() : OVR::Allocator(), allocatedMemory(0)
+	{
+	}
+
+	~OculusAllocator()
+	{
+	}
+
+	//Not sure if this is the proper way to do this (allocating an array, that is)...
+
+	void* Alloc(OVR::UPInt size)
+	{
+		char* data = new char[size + sizeof(size_t)];
+		*((size_t*)data) = (size_t)size;
+		allocatedMemory += size;
+		return (void*)(data + sizeof(size_t));
+	}
+
+	void* AllocDebug(OVR::UPInt size, const char* file, unsigned line)
+	{
+#ifdef GAMEPLAY_MEM_LEAK_DETECTION
+		char* data = new(file, line) char[size + sizeof(size_t)];
+		*((size_t*)data) = (size_t)size;
+		allocatedMemory += size;
+		return (void*)(data + sizeof(size_t));
+#else
+		return Alloc(size);
+#endif
+	}
+
+	void* Realloc(void* p, OVR::UPInt newSize)
+	{
+		void* nd = Alloc(newSize);
+		if(p)
+		{
+			char* d =  (char*)p;
+			d -= sizeof(size_t);
+			size_t orgSize = *((size_t*)d);
+			memcpy(nd, p, orgSize);
+			delete [] d;
+#ifdef GAMEPLAY_MEM_LEAK_DETECTION
+			if(allocatedMemory < orgSize)
+			{
+				gameplay::print("OculusVR is trying to reallocate a pointer that has an invalid size.\n");
+			}
+#endif
+			allocatedMemory -= orgSize;
+		}
+		return nd;
+	}
+
+	void Free(void* p)
+	{
+		if(p)
+		{
+			char* d = (char*)p;
+			d -= sizeof(size_t);
+			size_t orgSize = *((size_t*)d);
+			delete [] d;
+#ifdef GAMEPLAY_MEM_LEAK_DETECTION
+			if(allocatedMemory < orgSize)
+			{
+				gameplay::print("OculusVR is trying to free more memory then is allocated.\n");
+			}
+#endif
+			allocatedMemory -= orgSize;
+		}
+	}
+
+	//Use default AllocAligned
+	//void* AllocAligned(OVR::UPInt size, OVR::UPInt align)
+	//{
+	//	//TODO
+	//}
+
+	//void FreeAligned(void* p)
+	//{
+	//	//TODO
+	//}
+
+protected:
+	void onSystemShutdown()
+	{
+#ifdef GAMEPLAY_MEM_LEAK_DETECTION
+		if(allocatedMemory > 0)
+		{
+			gameplay::print("OculusVR still has %u bytes allocated.\n", (unsigned int)allocatedMemory);
+		}
+#endif
+	}
+
+private:
+	size_t allocatedMemory;
+};
+
 //VR Data
 class OculusDeviceHandler;
 
 class OculusData
 {
 public:
-	OculusData() : log(NULL), ovrSystem(NULL), holdsLocks(false), devices(), ovrDevices(), devManager(), devHandler(NULL)
+	OculusData() : log(NULL), alloc(NULL), ovrSystem(NULL), holdsLocks(false), devices(), ovrDevices(), devManager(), devHandler(NULL)
 	{
 	}
 
@@ -95,6 +194,7 @@ public:
 	}
 
 	OculusLog* log;
+	OculusAllocator* alloc;
 	OVR::System* ovrSystem;
 	bool holdsLocks;
 	std::map<VRDevice::VRTypes, std::vector<VRDevice*> > devices;
@@ -164,8 +264,11 @@ void VRController::initialize()
 	//Setup log
 	_data->log = new OculusLog();
 
+	//Setup allocator
+	_data->alloc = new OculusAllocator();
+
 	//Load Oculus VR support
-	_data->ovrSystem = new OVR::System(_data->log);
+	_data->ovrSystem = new OVR::System(_data->log, _data->alloc);
 
 	//Get device manager (note: make sure to have the * in there. "= OVR::DeviceManager::Create();" will have an incorrect reference count and when the program exits, it will not work)
 	_data->devManager = *OVR::DeviceManager::Create();
@@ -197,6 +300,7 @@ void VRController::finalize()
 	SAFE_DELETE(_data->devHandler);
 	_data->devManager.Clear();
 	SAFE_DELETE(_data->ovrSystem);
+	SAFE_DELETE(_data->alloc);
 	SAFE_DELETE(_data->log);
 #endif
 }
@@ -273,13 +377,14 @@ void VRController::pollDevices()
 #endif
 }
 
-bool VRController::shouldRenderStereo()
+unsigned int VRController::renderIterationCount()
 {
 #ifdef USE_OCULUS
 	//TODO
-	return false;
+	return 1;
 #else
-	return false;
+	//Only do one render
+	return 1;
 #endif
 }
 

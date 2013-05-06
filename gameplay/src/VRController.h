@@ -67,9 +67,9 @@ private:
 	void pollDevices();
 
 	/**
-	 * Called during rendering to determine if rendering should happen twice.
+	 * Called during rendering to determine if how many times rendering should occur. Use with prepareRender and finalizeRender.
 	 */
-	bool shouldRenderStereo();
+	unsigned int renderIterationCount();
 
 	/**
 	 * Called prior to rendering to make sure that rendering is done properly.

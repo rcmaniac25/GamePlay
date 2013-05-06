@@ -260,14 +260,14 @@ void Game::resume()
 
 void Game::exit()
 {
-    // Only perform a full/clean shutdown if FORCE_CLEAN_SHUTDOWN or
-    // GAMEPLAY_MEM_LEAK_DETECTION is defined. Every modern OS is able to
-    // handle reclaiming process memory hundreds of times faster than it
-    // would take us to go through every pointer in the engine and release
+    // Only perform a full/clean shutdown if FORCE_CLEAN_SHUTDOWN,
+    // GAMEPLAY_MEM_LEAK_DETECTION, or USE_OCULUS is defined. Every modern 
+    // OS is able to handle reclaiming process memory hundreds of times faster 
+    // than it would take us to go through every pointer in the engine and release
     // them nicely. For large games, shutdown can end up taking long time,
     // so we'll just call ::exit(0) to force an instant shutdown.
 
-#if defined FORCE_CLEAN_SHUTDOWN || defined GAMEPLAY_MEM_LEAK_DETECTION
+#if defined FORCE_CLEAN_SHUTDOWN || defined GAMEPLAY_MEM_LEAK_DETECTION || defined USE_OCULUS
 
     // Schedule a call to shutdown rather than calling it right away.
 	// This handles the case of shutting down the script system from
@@ -354,17 +354,14 @@ void Game::frame()
 
         // Graphics Rendering.
 #ifdef USE_OCULUS
-        _vrController->prepareRender(0);
+		for(unsigned int r = 0; r < _vrController->renderIterationCount(); r++)
+		{
+        _vrController->prepareRender(r);
 #endif
         render(elapsedTime);
 #ifdef USE_OCULUS
-        _vrController->finalizeRender(0);
-        if(_vrController->shouldRenderStereo())
-        {
-            _vrController->prepareRender(1);
-            render(elapsedTime);
-            _vrController->finalizeRender(1);
-        }
+        _vrController->finalizeRender(r);
+		}
 #endif
 
         // Run script render.
@@ -408,17 +405,14 @@ void Game::frame()
 
         // Graphics Rendering.
 #ifdef USE_OCULUS
-        _vrController->prepareRender(0);
+		for(unsigned int r = 0; r < _vrController->renderIterationCount(); r++)
+		{
+        _vrController->prepareRender(r);
 #endif
         render(0);
 #ifdef USE_OCULUS
-        _vrController->finalizeRender(0);
-        if(_vrController->shouldRenderStereo())
-        {
-            _vrController->prepareRender(1);
-            render(0);
-            _vrController->finalizeRender(1);
-        }
+        _vrController->finalizeRender(r);
+		}
 #endif
 
         // Script render.
