@@ -409,7 +409,6 @@ void luaRegister_lua_Global()
         std::vector<std::string> scopePath;
         scopePath.push_back("HMD");
         gameplay::ScriptUtil::registerConstantString("MONO_MODE", "MONO_MODE", scopePath);
-        gameplay::ScriptUtil::registerConstantString("STEREO_MODE", "STEREO_MODE", scopePath);
         gameplay::ScriptUtil::registerConstantString("LEFT_RIGHT_MODE", "LEFT_RIGHT_MODE", scopePath);
     }
 

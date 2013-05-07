@@ -5,6 +5,7 @@
 
 namespace gameplay
 {
+	class Camera;
 
 /**
  * Head-mounted display VR control
@@ -32,7 +33,7 @@ public:
     enum RenderMode
     {
         MONO_MODE,
-		STEREO_MODE,
+		//STEREO_MODE,
 		LEFT_RIGHT_MODE
     };
 
@@ -48,15 +49,35 @@ public:
 	 */
 	RenderState getRenderState() const;
 
+	/**
+	 * Get the current render mode that the HMD should render.
+	 * 
+	 * @return The current render mode.
+	 */
+	RenderMode getRenderMode() const;
+
     //TODO
 
 private:
+
+	class HMDCamera
+	{
+	public:
+		HMDCamera(Camera* cam, bool enabled);
+		~HMDCamera();
+
+		Camera* cam;
+		bool enabled;
+	};
 
     HMD(void* handle);
 	~HMD();
 
 	HMD(const HMD& copy);
     HMD& operator=(const HMD&);
+
+	RenderState _rendState;
+	std::vector<HMDCamera> _cameras;
 
 };
 

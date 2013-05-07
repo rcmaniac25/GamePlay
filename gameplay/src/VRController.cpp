@@ -4,6 +4,11 @@
 #include "HMD.h"
 #include "VRSensor.h"
 #include "VRLatencyTester.h"
+#include "Camera.h"
+#include "Node.h"
+#include "Scene.h"
+
+#include <iterator>
 
 #ifdef USE_OCULUS
 #include <OVR.h>
@@ -12,7 +17,7 @@
 namespace gameplay
 {
 
-//Helper class
+//Helper classes
 #ifdef USE_OCULUS
 //VR Log
 class OculusLog : public OVR::Log
@@ -181,11 +186,14 @@ private:
 
 //VR Data
 class OculusDeviceHandler;
+class OculusLatencyHandler;
 
 class OculusData
 {
 public:
-	OculusData() : log(NULL), alloc(NULL), ovrSystem(NULL), holdsLocks(false), devices(), ovrDevices(), devManager(), devHandler(NULL)
+	OculusData() : log(NULL), alloc(NULL), ovrSystem(NULL), holdsLocks(false), devices(), ovrDevices(), devManager(), 
+		devHandler(NULL), latencyHandler(NULL),
+		activeHMD(NULL), activeCamera(NULL), oriViewport()
 	{
 	}
 
@@ -201,6 +209,11 @@ public:
 	std::vector<OVR::Ptr<OVR::DeviceBase> > ovrDevices;
 	OVR::Ptr<OVR::DeviceManager> devManager;
 	OculusDeviceHandler* devHandler;
+	OculusLatencyHandler* latencyHandler;
+
+	HMD* activeHMD;
+	Camera* activeCamera;
+	Rectangle oriViewport;
 };
 
 //VR Device handler
@@ -235,6 +248,122 @@ public:
 private:
 	OculusData* data;
 };
+
+class OculusLatencyHandler : public OVR::MessageHandler, public VRHandler
+{
+public:
+	OculusLatencyHandler() : OVR::MessageHandler(), _testDevices(), _testers()
+	{
+	}
+
+	~OculusLatencyHandler()
+	{
+		RemoveHandlerFromDevices();
+	}
+
+	void OnMessage(const OVR::Message& msg)
+	{
+		//Standard C++ method of doing the below loop
+		//unsigned int i = std::distance(std::find(_testDevices.begin(), _testDevices.end(), static_cast<OVR::LatencyTestDevice*>(msg.pDevice)), _testDevices.begin());
+
+		OVR::LatencyTestDevice* testDev = static_cast<OVR::LatencyTestDevice*>(msg.pDevice);
+
+		//Determine the index of the device we are testing
+		unsigned int i = 0;
+		for(std::vector<OVR::LatencyTestDevice*>::iterator it = _testDevices.begin(); it != _testDevices.end(); it++, i++)
+		{
+			if(*it == testDev)
+			{
+				break;
+			}
+		}
+
+		//Handle the message
+		VRDevice::VREvent ev = VRDevice::DISCONNECTED_EVENT;
+		switch(msg.Type)
+		{
+			case OVR::Message_LatencyTestSamples:
+				ev = VRDevice::LATENCY_TESTER_SAMPLES_EVENT;
+				break;
+			case OVR::Message_LatencyTestColorDetected:
+				ev = VRDevice::LATENCY_TESTER_COLOR_DETECTED_EVENT;
+				break;
+			case OVR::Message_LatencyTestStarted:
+				ev = VRDevice::LATENCY_TESTER_STARTED_EVENT;
+				break;
+			case OVR::Message_LatencyTestButton:
+				ev = VRDevice::LATENCY_TESTER_BUTTON_EVENT;
+				break;
+		}
+		if(ev != VRDevice::DISCONNECTED_EVENT)
+		{
+			Platform::vrEventInternal(ev, _testers[i]);
+		}
+	}
+
+	bool SupportsMessageType(OVR::MessageType type) const
+	{
+		return type == OVR::Message_LatencyTestSamples || type == OVR::Message_LatencyTestColorDetected || type == OVR::Message_LatencyTestStarted || type == OVR::Message_LatencyTestButton;
+	}
+
+	void AddDevice(VRDevice* device)
+	{
+		if(device)
+		{
+			OVR::Lock::Locker lockedScope(this->GetHandlerLock());
+			VRLatencyTester* tester = static_cast<VRLatencyTester*>(device);
+
+			std::vector<VRLatencyTester*>::iterator it = std::find(_testers.begin(), _testers.end(), tester);
+			if(it == _testers.end())
+			{
+				//Tester doesn't exist
+				_testers.push_back(tester);
+
+				//It's expected that any currently set listener will be removed
+				OVR::LatencyTestDevice* testDev = static_cast<OVR::LatencyTestDevice*>(VRController::getDeviceHandle(tester));
+				testDev->SetMessageHandler(this);
+				_testDevices.push_back(testDev);
+			}
+		}
+	}
+
+	void RemoveDevice(VRDevice* device)
+	{
+		if(device)
+		{
+			OVR::Lock::Locker lockedScope(this->GetHandlerLock());
+			std::vector<VRLatencyTester*>::iterator it = std::find(_testers.begin(), _testers.end(), static_cast<VRLatencyTester*>(device));
+			if(it != _testers.end())
+			{
+				//Tester exists
+				unsigned int index = std::distance(_testers.begin(), it);
+
+				//Remove from testers
+				_testers.erase(it);
+
+				//Remove from OVR devices
+				std::vector<OVR::LatencyTestDevice*>::iterator ovrIt = _testDevices.begin() + index;
+				(*ovrIt)->SetMessageHandler(NULL);
+				_testDevices.erase(ovrIt);
+			}
+		}
+	}
+
+	void RemoveAllDevices()
+	{
+		OVR::Lock::Locker lockedScope(this->GetHandlerLock());
+		for(int i = _testDevices.size() - 1; i >= 0; i--)
+		{
+			_testDevices[i]->SetMessageHandler(NULL);
+			_testDevices.erase(_testDevices.begin() + i);
+			_testers.erase(_testers.begin() + i);
+		}
+	}
+
+private:
+	std::vector<OVR::LatencyTestDevice*> _testDevices;
+	std::vector<VRLatencyTester*> _testers;
+};
 #endif
 
 VRController::VRController() : 
@@ -253,9 +382,28 @@ VRController::~VRController()
 #endif
 }
 
+void* VRController::getDeviceHandle(VRDevice* device)
+{
+#ifdef USE_OCULUS
+	if(device)
+	{
+		return device->_deviceHandle;
+	}
+#endif
+	return NULL;
+}
+
 void VRController::disableAllEvents()
 {
+#ifdef USE_OCULUS
 	//TODO
+
+	//Disable latency tester events
+	if(_data->latencyHandler)
+	{
+		_data->latencyHandler->RemoveAllDevices();
+	}
+#endif
 }
 
 void VRController::initialize()
@@ -297,6 +445,7 @@ void VRController::finalize()
 	//Cleanup ovrDevices
 	_data->ovrDevices.clear();
 
+	SAFE_DELETE(_data->latencyHandler);
 	SAFE_DELETE(_data->devHandler);
 	_data->devManager.Clear();
 	SAFE_DELETE(_data->ovrSystem);
@@ -364,7 +513,10 @@ void VRController::pollDevices()
 						OVR::Ptr<OVR::DeviceBase>& cDev = *it;
 						if(cDev.GetPtr() == dev.GetPtr())
 						{
-							//TODO: remove
+							//TODO: remove event
+							//TODO: Remove the _data->devices device and make sure that if this is the active HMD that it is reset it (don't forget activeCamera)
+							//TODO: If a latency tester, make sure it's removed from latency handler (if it's setup)
+							//TODO: remove from _devices
 							cDev.Clear();
 							_data->ovrDevices.erase(it);
 							break;
@@ -374,31 +526,120 @@ void VRController::pollDevices()
 			}*/
 		}
 	} while(em.Next());
+
+	/* We have the ability to get cameras from the HMD, don't remove them
+	//Check for removed cameras
+	std::vector<VRDevice*>& hmds = _data->devices[VRDevice::HMD_TYPE];
+	for(std::vector<VRDevice*>::iterator it = hmds.begin(); it != hmds.end(); it++)
+	{
+		HMD* hmd = static_cast<HMD*>(*it);
+
+		//Find unused cameras
+		std::vector<unsigned int> toRemove;
+		unsigned int index = 0;
+		for(std::vector<HMD::HMDCamera>::iterator cit = hmd->_cameras.begin(); cit != hmd->_cameras.end(); cit++, index++)
+		{
+			if((*cit).cam->getRefCount() == 1)
+			{
+				//If there is only one reference, then we control the reference, so we can remove it since no one will ever reactivate it
+				toRemove.push_back(index);
+			}
+		}
+
+		//Remove unused cameras
+		for(int i = toRemove.size() - 1; i >= 0; i--)
+		{
+			hmd->_cameras.erase(hmd->_cameras.begin() + i);
+		}
+	}
+	*/
 #endif
+}
+
+static unsigned int getRenderIteration(HMD::RenderMode mode)
+{
+	switch(mode)
+	{
+		case HMD::MONO_MODE:
+			//Just end since it's one render
+			break;
+		//case HMD::STEREO_MODE:
+		//	return 2; //XXX Not sure yet
+		case HMD::LEFT_RIGHT_MODE:
+			return 2;
+	}
+	return 1;
 }
 
 unsigned int VRController::renderIterationCount()
 {
 #ifdef USE_OCULUS
-	//TODO
-	return 1;
-#else
+	//If we already have a camera, use it
+	if(_data->activeHMD)
+	{
+		return getRenderIteration(_data->activeHMD->getRenderMode());
+	}
+
+	//Look for cameras
+	bool foundActive = false;
+	std::vector<VRDevice*>& hmds = _data->devices[VRDevice::HMD_TYPE];
+	for(std::vector<VRDevice*>::iterator it = hmds.begin(); !foundActive && it != hmds.end(); it++)
+	{
+		HMD* hmd = static_cast<HMD*>(*it);
+
+		for(std::vector<HMD::HMDCamera>::iterator cit = hmd->_cameras.begin(); cit != hmd->_cameras.end(); cit++)
+		{
+			HMD::HMDCamera& hmdCam = *cit;
+			Node* camNode = hmdCam.cam->getNode();
+			if(camNode)
+			{
+				//Check to see if this is the active camera
+				if(camNode->getScene()->getActiveCamera() == hmdCam.cam)
+				{
+					//Found the active camera
+					foundActive = true;
+
+					//Cache values
+					_data->activeHMD = hmd;
+					_data->activeCamera = NULL;
+					_data->oriViewport = Game::getInstance()->getViewport();
+
+					if(!hmdCam.enabled)
+					{
+						//Simple exit loop, just doing a single render
+						break;
+					}
+
+					_data->activeCamera = hmdCam.cam;
+
+					//Determine what kind of rendering loop needs to be performed
+					return getRenderIteration(hmd->getRenderMode());
+				}
+			}
+		}
+	}
+#endif
 	//Only do one render
 	return 1;
-#endif
 }
 
 void VRController::prepareRender(unsigned int index)
 {
 #ifdef USE_OCULUS
-	//TODO: Get cameras, determine if any are active. Find which HMD it matches with. Get adjustment info from HMD. Adjust matricies on active camera
+	if(_data->activeHMD)
+	{
+		//TODO: Get adjustment info from HMD. Adjust matricies on active camera if there is one.
+	}
 #endif
 }
 
 void VRController::finalizeRender(unsigned int index)
 {
 #ifdef USE_OCULUS
-	//TODO: distort camera to screen backbuffer
+	if(_data->activeHMD)
+	{
+		//TODO: distort camera to screen backbuffer. If last index, restore viewport
+	}
 #endif
 }
 
@@ -409,6 +650,10 @@ void VRController::lockMessages()
 	{
 		_data->holdsLocks = true;
 		//_data->devHandler->GetHandlerLock()->DoLock(); //XXX see explanation in pollDevices
+		if(_data->latencyHandler)
+		{
+			_data->devHandler->GetHandlerLock()->DoLock();
+		}
 		//TODO: lock message handlers so that we can update without values changing
 	}
 #endif
@@ -419,7 +664,16 @@ void VRController::releaseMessages()
 #ifdef USE_OCULUS
 	if(_data->holdsLocks)
 	{
+		//Reset the cached HMD so that it's recalculated next frame
+		_data->activeHMD = NULL;
+		_data->activeCamera = NULL;
+		_data->oriViewport = Rectangle(); //Reset
+
 		//TODO: release message handlers so that we can update without values changing
+		if(_data->latencyHandler)
+		{
+			_data->devHandler->GetHandlerLock()->Unlock();
+		}
 		//_data->devHandler->GetHandlerLock()->Unlock(); //XXX see explanation in pollDevices
 		_data->holdsLocks = false;
 	}
@@ -432,6 +686,7 @@ unsigned int VRController::getDeviceCount(VRDevice::VRTypes type) const
 	std::map<VRDevice::VRTypes, std::vector<VRDevice*> >::iterator it;
 	if(type == VRDevice::ALL_TYPES)
 	{
+		//Get the total number of devices
 		unsigned int c = 0;
 		for(it = _data->devices.begin(); it != _data->devices.end(); it++)
 		{
@@ -439,6 +694,8 @@ unsigned int VRController::getDeviceCount(VRDevice::VRTypes type) const
 		}
 		return c;
 	}
+
+	//Get the cound based on type
 	it = _data->devices.find(type);
 	if(it == _data->devices.end())
 	{
@@ -455,6 +712,7 @@ VRDevice* VRController::getDevice(unsigned int index, VRDevice::VRTypes type) co
 #ifdef USE_OCULUS
 	if(type == VRDevice::ALL_TYPES)
 	{
+		//Get any device, purely by index
 		unsigned int c = 0;
 		for(std::map<VRDevice::VRTypes, std::vector<VRDevice*> >::iterator it = _data->devices.begin(); it != _data->devices.end(); it++)
 		{
@@ -466,6 +724,8 @@ VRDevice* VRController::getDevice(unsigned int index, VRDevice::VRTypes type) co
 		}
 		return NULL;
 	}
+
+	//Get the device based on type
 	std::map<VRDevice::VRTypes, std::vector<VRDevice*> >::iterator it = _data->devices.find(type);
 	if(it == _data->devices.end())
 	{
@@ -476,6 +736,19 @@ VRDevice* VRController::getDevice(unsigned int index, VRDevice::VRTypes type) co
 		return NULL;
 	}
 	return it->second[index];
+#else
+	return NULL;
+#endif
+}
+
+VRHandler* VRController::getLatencyHandler()
+{
+#ifdef USE_OCULUS
+	if(!_data->latencyHandler)
+	{
+		_data->latencyHandler = new OculusLatencyHandler();
+	}
+	return _data->latencyHandler;
 #else
 	return NULL;
 #endif

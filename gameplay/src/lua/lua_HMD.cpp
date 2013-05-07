@@ -2,8 +2,10 @@
 #include "ScriptController.h"
 #include "lua_HMD.h"
 #include "Base.h"
+#include "Camera.h"
 #include "HMD.h"
 #include "VRDevice.h"
+#include "lua_HMDRenderMode.h"
 #include "lua_HMDRenderState.h"
 #include "lua_VRDeviceVRTypes.h"
 
@@ -16,6 +18,7 @@ void luaRegister_HMD()
     {
         {"getManufacturer", lua_HMD_getManufacturer},
         {"getProductName", lua_HMD_getProductName},
+        {"getRenderMode", lua_HMD_getRenderMode},
         {"getRenderState", lua_HMD_getRenderState},
         {"getType", lua_HMD_getType},
         {"getVersion", lua_HMD_getVersion},
@@ -95,6 +98,41 @@ int lua_HMD_getProductName(lua_State* state)
             }
 
             lua_pushstring(state, "lua_HMD_getProductName - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 1).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_HMD_getRenderMode(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 1:
+        {
+            if ((lua_type(state, 1) == LUA_TUSERDATA))
+            {
+                HMD* instance = getInstance(state);
+                HMD::RenderMode result = instance->getRenderMode();
+
+                // Push the return value onto the stack.
+                lua_pushstring(state, lua_stringFromEnum_HMDRenderMode(result));
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_HMD_getRenderMode - Failed to match the given parameters to a valid function signature.");
             lua_error(state);
             break;
         }

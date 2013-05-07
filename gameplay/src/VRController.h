@@ -6,6 +6,7 @@
 namespace gameplay
 {
 	class OculusData;
+	class VRHandler;
 
 /**
  * The AIController facilitates virtual reality device execution such as 
@@ -15,6 +16,8 @@ namespace gameplay
 class VRController
 {
 	friend class Game;
+	friend class VRLatencyTester;
+	friend class OculusLatencyHandler;
 
 public:
 
@@ -62,7 +65,7 @@ private:
     void finalize();
 
 	/**
-	 * Called during update to check if any new devices have been added or removed.
+	 * Called during update to check if any new devices have been added or removed and do maintenance work.
 	 */
 	void pollDevices();
 
@@ -89,8 +92,52 @@ private:
 
 	VRDevice* getDevice(unsigned int, VRDevice::VRTypes type = VRDevice::ALL_TYPES) const;
 
+	VRHandler* getLatencyHandler();
+
+	//Static
+	static void* getDeviceHandle(VRDevice* device);
+
+	//Data
 	OculusData* _data;
 
+};
+
+/**
+ * For handling VR devices.
+ * 
+ * For internal use only
+ * 
+ * @script{ignore}
+ */
+class VRHandler
+{
+public:
+	/**
+	 * Add a VR device
+	 * 
+	 * For internal use only
+	 * 
+	 * @param device Device to add.
+	 * @script{ignore}
+	 */
+	virtual void AddDevice(VRDevice* device) = 0;
+	/**
+	 * Remove a VR device
+	 * 
+	 * For internal use only
+	 * 
+	 * @param device Device to remove.
+	 * @script{ignore}
+	 */
+	virtual void RemoveDevice(VRDevice* device) = 0;
+	/**
+	 * Remove all devices.
+	 * 
+	 * For internal use only
+	 * 
+	 * @script{ignore}
+	 */
+	virtual void RemoveAllDevices() = 0;
 };
 
 }

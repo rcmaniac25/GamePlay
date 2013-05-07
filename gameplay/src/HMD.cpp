@@ -1,5 +1,6 @@
 #include "Base.h"
 #include "HMD.h"
+#include "Camera.h"
 
 #ifdef USE_OCULUS
 #include <OVR.h>
@@ -8,7 +9,22 @@
 namespace gameplay
 {
 
-HMD::HMD(void* handle) : VRDevice(handle)
+//HMDCamera
+HMD::HMDCamera::HMDCamera(Camera* c, bool e) : cam(c), enabled(e)
+{
+	if(c)
+	{
+		c->addRef();
+	}
+}
+
+HMD::HMDCamera::~HMDCamera()
+{
+	SAFE_RELEASE(cam);
+}
+
+//HMD
+HMD::HMD(void* handle) : VRDevice(handle), _rendState(HMD::NOT_RENDERING), _cameras()
 {
 }
 
@@ -23,12 +39,13 @@ VRDevice::VRTypes HMD::getType() const
 
 HMD::RenderState HMD::getRenderState() const
 {
-#ifdef USE_OCULUS
+	return _rendState;
+}
+
+HMD::RenderMode HMD::getRenderMode() const
+{
 	//TODO
-	return HMD::NOT_RENDERING;
-#else
-	return HMD::NOT_RENDERING;
-#endif
+	return HMD::MONO_MODE;
 }
 
 }
