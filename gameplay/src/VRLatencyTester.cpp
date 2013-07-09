@@ -10,13 +10,13 @@ namespace gameplay
 {
 
 VRLatencyTester::VRLatencyTester(void* handle) : VRDevice(handle), 
-	_threshold(Vector4::zero()), _sendSamples(false), _calibrate(Vector4::zero()),
+	_threshold(Vector4::one()), _sendSamples(false), _calibrate(Vector4::one()),
 	_testUtility(NULL)
 {
 #ifdef USE_OCULUS
 	if(handle)
 	{
-		const OVR::Color& tCol = OVR::Color();
+		const OVR::Color& tCol = OVR::Color(0xFFFFFFFF);
 
 		OVR::LatencyTestConfiguration config = OVR::LatencyTestConfiguration(tCol);
 		OVR::LatencyTestDevice* testDev = static_cast<OVR::LatencyTestDevice*>(handle);
@@ -25,9 +25,7 @@ VRLatencyTester::VRLatencyTester(void* handle) : VRDevice(handle),
 		config.Threshold.GetRGBA(&_threshold.x, &_threshold.y, &_threshold.z, &_threshold.w);
 		_sendSamples = config.SendSamples;
 
-		OVR::LatencyTestCalibrate cali = OVR::LatencyTestCalibrate(tCol);
-		testDev->GetCalibrate(&cali);
-		cali.Value.GetRGBA(&_calibrate.x, &_calibrate.y, &_calibrate.z, &_calibrate.w);
+		testDev->SetCalibrate(tCol);
 	}
 #endif
 }
@@ -105,9 +103,7 @@ bool VRLatencyTester::setCalibrate(const Vector4& calibrationSetting, bool wait)
 
 		_calibrate.set(calibrationSetting);
 
-		OVR::LatencyTestCalibrate cali = OVR::LatencyTestCalibrate(col);
-
-		return testDev->SetCalibrate(cali, wait);
+		return testDev->SetCalibrate(col, wait);
 	}
 #endif
 	return false;
@@ -127,9 +123,8 @@ bool VRLatencyTester::startTest(const Vector4& targetColor, bool wait)
 		//Run test
 		OVR::Color& col = OVR::Color((unsigned char)(targetColor.x * 255.0f), (unsigned char)(targetColor.y * 255.0f), 
 			(unsigned char)(targetColor.z * 255.0f), (unsigned char)(targetColor.w * 255.0f));
-		OVR::LatencyTestStartTest test = OVR::LatencyTestStartTest(col);
 		OVR::LatencyTestDevice* testDev = static_cast<OVR::LatencyTestDevice*>(_deviceHandle);
-		return testDev->SetStartTest(test, wait);
+		return testDev->SetStartTest(col, wait);
 	}
 #endif
 	return false;
