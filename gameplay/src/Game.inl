@@ -64,6 +64,11 @@ inline AIController* Game::getAIController() const
     return _aiController;
 }
 
+inline SocialController* Game::getSocialController() const
+{
+    return _socialController;
+}
+
 inline VRController* Game::getVRController() const
 {
     return _vrController;
@@ -137,9 +142,9 @@ inline void Game::getAccelerometerValues(float* pitch, float* roll)
     Platform::getAccelerometerValues(pitch, roll);
 }
 
-inline void Game::getRawSensorValues(float* accelX, float* accelY, float* accelZ, float* gyroX, float* gyroY, float* gyroZ)
+inline void Game::getSensorValues(float* accelX, float* accelY, float* accelZ, float* gyroX, float* gyroY, float* gyroZ)
 {
-    return Platform::getRawSensorValues(accelX, accelY, accelZ, gyroX, gyroY, gyroZ);
+    return Platform::getSensorValues(accelX, accelY, accelZ, gyroX, gyroY, gyroZ);
 }
 
 inline unsigned int Game::getGamepadCount() const

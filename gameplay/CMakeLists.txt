@@ -48,6 +48,8 @@ set(GAMEPLAY_SRC
     src/Container.h
     src/Control.cpp
     src/Control.h
+	src/ControlFactory.h
+	src/ControlFactory.cpp
     src/Curve.cpp
     src/Curve.h
     src/DebugNew.cpp
@@ -187,6 +189,10 @@ set(GAMEPLAY_SRC
     src/Scene.h
     src/SceneLoader.cpp
     src/SceneLoader.h
+    src/SceneRenderer.cpp
+    src/SceneRenderer.h
+    src/SceneRendererForward.cpp
+    src/SceneRendererForward.h
     src/ScreenDisplayer.cpp
     src/ScreenDisplayer.h
     src/ScriptController.cpp
@@ -196,6 +202,19 @@ set(GAMEPLAY_SRC
     src/ScriptTarget.h
     src/Slider.cpp
     src/Slider.h
+    src/SocialAchievement.cpp
+    src/SocialAchievement.h
+    src/SocialChallenge.cpp
+    src/SocialChallenge.h
+    src/SocialController.cpp
+    src/SocialController.h
+    src/SocialPlayer.cpp
+    src/SocialPlayer.h
+    src/SocialScore.cpp
+    src/SocialScore.h
+    src/SocialSession.h
+    src/SocialSessionListener.cpp
+    src/SocialSessionListener.h
     src/SpriteBatch.cpp
     src/SpriteBatch.h
     src/Technique.cpp
@@ -229,6 +248,9 @@ set(GAMEPLAY_SRC
     src/VertexFormat.h
     src/VerticalLayout.cpp
     src/VerticalLayout.h
+    src/VisibleSet.h
+    src/VisibleSetDefault.cpp
+    src/VisibleSetDefault.h
     src/VRController.cpp
     src/VRController.h
     src/VRDevice.cpp
@@ -306,6 +328,8 @@ set(GAMEPLAY_LUA
     src/lua/lua_Control.h
     src/lua/lua_ControlAlignment.cpp
     src/lua/lua_ControlAlignment.h
+    src/lua/lua_ControlAutoSize.cpp
+    src/lua/lua_ControlAutoSize.h
     src/lua/lua_ControlListener.cpp
     src/lua/lua_ControlListener.h
     src/lua/lua_ControlListenerEventType.cpp
@@ -328,6 +352,8 @@ set(GAMEPLAY_LUA
     src/lua/lua_FlowLayout.h
     src/lua/lua_Font.cpp
     src/lua/lua_Font.h
+    src/lua/lua_FontFormat.cpp
+    src/lua/lua_FontFormat.h
     src/lua/lua_FontJustify.cpp
     src/lua/lua_FontJustify.h
     src/lua/lua_FontStyle.cpp
@@ -511,6 +537,8 @@ set(GAMEPLAY_LUA
     src/lua/lua_RenderStateCullFaceSide.cpp
     src/lua/lua_RenderStateDepthFunction.cpp
     src/lua/lua_RenderStateDepthFunction.h
+    src/lua/lua_RenderStateFrontFace.cpp
+    src/lua/lua_RenderStateFrontFace.h
     src/lua/lua_RenderStateStateBlock.cpp
     src/lua/lua_RenderStateStateBlock.h
     src/lua/lua_RenderStateStencilFunction.cpp
@@ -523,6 +551,10 @@ set(GAMEPLAY_LUA
     src/lua/lua_Scene.h
     src/lua/lua_SceneDebugFlags.cpp
     src/lua/lua_SceneDebugFlags.h
+    src/lua/lua_SceneRenderer.cpp
+    src/lua/lua_SceneRenderer.h
+    src/lua/lua_SceneRendererForward.cpp
+    src/lua/lua_SceneRendererForward.h
     src/lua/lua_ScreenDisplayer.cpp
     src/lua/lua_ScreenDisplayer.h
     src/lua/lua_ScriptController.cpp
@@ -591,6 +623,10 @@ set(GAMEPLAY_LUA
     src/lua/lua_VertexFormatUsage.h
     src/lua/lua_VerticalLayout.cpp
     src/lua/lua_VerticalLayout.h
+    src/lua/lua_VisibleSet.cpp
+    src/lua/lua_VisibleSet.h
+    src/lua/lua_VisibleSetDefault.cpp
+    src/lua/lua_VisibleSetDefault.h
     src/lua/lua_VRController.cpp
     src/lua/lua_VRController.h
     src/lua/lua_VRDevice.cpp
@@ -643,7 +679,7 @@ include_directories(
     src
     ../external-deps/lua/include
     ../external-deps/bullet/include
-    ../external-deps/libpng/include
+    ../external-deps/png/include
     ../external-deps/zlib/include
     ../external-deps/oggvorbis/include
     ../external-deps/openal/include

@@ -20,12 +20,12 @@ double Game::_pausedTimeTotal = 0.0;
 
 Game::Game()
     : _initialized(false), _state(UNINITIALIZED), _pausedCount(0),
-      _frameLastFPS(0), _frameCount(0), _frameRate(0),
+      _frameLastFPS(0), _frameCount(0), _frameRate(0), _width(0), _height(0),
       _clearDepth(1.0f), _clearStencil(0), _properties(NULL),
       _animationController(NULL), _audioController(NULL),
       _physicsController(NULL), _aiController(NULL), _vrController(NULL), 
       _audioListener(NULL), _timeEvents(NULL), _scriptController(NULL), 
-      _scriptListeners(NULL)
+      _socialController(NULL), _scriptListeners(NULL)
 {
     GP_ASSERT(__gameInstance == NULL);
     __gameInstance = this;
@@ -39,7 +39,7 @@ Game::~Game()
     // Do not call any virtual functions from the destructor.
     // Finalization is done from outside this class.
     SAFE_DELETE(_timeEvents);
-#ifdef GAMEPLAY_MEM_LEAK_DETECTION
+#ifdef GP_USE_MEM_LEAK_DETECTION
     Ref::printLeaks();
     printMemoryLeaks();
 #endif
@@ -114,6 +114,9 @@ bool Game::startup()
 
     _scriptController = new ScriptController();
     _scriptController->initialize();
+
+    _socialController = new SocialController();
+    _socialController->initialize();
 
     _vrController = new VRController();
     _vrController->initialize();
@@ -203,6 +206,9 @@ void Game::shutdown()
         _aiController->finalize();
         SAFE_DELETE(_aiController);
 
+        _socialController->initialize();
+        SAFE_DELETE(_socialController);
+
         // Note: we do not clean up the script controller here
         // because users can call Game::exit() from a script.
 
@@ -231,6 +237,7 @@ void Game::pause()
         _audioController->pause();
         _physicsController->pause();
         _aiController->pause();
+        _socialController->pause();
     }
 
     ++_pausedCount;
@@ -254,6 +261,7 @@ void Game::resume()
             _audioController->resume();
             _physicsController->resume();
             _aiController->resume();
+            _socialController->resume();
         }
     }
 }
@@ -261,13 +269,13 @@ void Game::resume()
 void Game::exit()
 {
     // Only perform a full/clean shutdown if FORCE_CLEAN_SHUTDOWN,
-    // GAMEPLAY_MEM_LEAK_DETECTION, or USE_OCULUS is defined. Every modern 
+    // GP_USE_MEM_LEAK_DETECTION, or USE_OCULUS is defined. Every modern 
     // OS is able to handle reclaiming process memory hundreds of times faster 
     // than it would take us to go through every pointer in the engine and release
     // them nicely. For large games, shutdown can end up taking long time,
     // so we'll just call ::exit(0) to force an instant shutdown.
 
-#if defined FORCE_CLEAN_SHUTDOWN || defined GAMEPLAY_MEM_LEAK_DETECTION || defined USE_OCULUS
+#if defined FORCE_CLEAN_SHUTDOWN || defined GP_USE_MEM_LEAK_DETECTION || defined USE_OCULUS
 
     // Schedule a call to shutdown rather than calling it right away.
 	// This handles the case of shutting down the script system from
@@ -351,6 +359,9 @@ void Game::frame()
 
         // Audio Rendering.
         _audioController->update(elapsedTime);
+
+        // Social Update.
+        _socialController->update(elapsedTime);
 
         // Graphics Rendering.
 #ifdef USE_OCULUS
@@ -445,6 +456,7 @@ void Game::updateOnce()
     _aiController->update(elapsedTime);
     _audioController->update(elapsedTime);
     _scriptController->update(elapsedTime);
+    _socialController->update(elapsedTime);
 }
 
 void Game::setViewport(const Rectangle& viewport)
@@ -508,10 +520,6 @@ AudioListener* Game::getAudioListener()
         _audioListener = new AudioListener();
     }
     return _audioListener;
-}
-
-void Game::menuEvent()
-{
 }
 
 void Game::keyEvent(Keyboard::KeyEvent evt, int key)
