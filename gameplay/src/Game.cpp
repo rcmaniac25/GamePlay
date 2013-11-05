@@ -206,7 +206,7 @@ void Game::shutdown()
         _aiController->finalize();
         SAFE_DELETE(_aiController);
 
-        _socialController->initialize();
+        _socialController->finalize();
         SAFE_DELETE(_socialController);
 
         // Note: we do not clean up the script controller here
