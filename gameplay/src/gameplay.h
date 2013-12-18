@@ -50,8 +50,6 @@
 #include "Node.h"
 #include "Joint.h"
 #include "Scene.h"
-#include "SceneRenderer.h"
-#include "SceneRendererForward.h"
 #include "Font.h"
 #include "SpriteBatch.h"
 #include "ParticleEmitter.h"
@@ -62,8 +60,7 @@
 #include "HeightField.h"
 #include "Terrain.h"
 #include "TerrainPatch.h"
-#include "VisibleSet.h"
-#include "VisibleSetDefault.h"
+
 
 // Audio
 #include "AudioController.h"
@@ -118,11 +115,3 @@
 #include "AbsoluteLayout.h"
 #include "VerticalLayout.h"
 #include "FlowLayout.h"
-
-// Social
-#include "SocialController.h"
-#include "SocialSession.h"
-#include "SocialSessionListener.h"
-#include "SocialPlayer.h"
-#include "SocialAchievement.h"
-#include "SocialScore.h"

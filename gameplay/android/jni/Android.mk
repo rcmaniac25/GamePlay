@@ -89,18 +89,10 @@ LOCAL_SRC_FILES := \
     RenderTarget.cpp \
     Scene.cpp \
     SceneLoader.cpp \
-    SceneRenderer.cpp \
-    SceneRendererForward.cpp \
     ScreenDisplayer.cpp \
     ScriptController.cpp \
     ScriptTarget.cpp \
     Slider.cpp \
-	SocialAchievement.cpp \
-	SocialChallenge.cpp \
-	SocialController.cpp \
-	SocialPlayer.cpp \
-	SocialScore.cpp \
-	SocialSessionListener.cpp \
     SpriteBatch.cpp \
     Technique.cpp \
     Terrain.cpp \
@@ -116,7 +108,6 @@ LOCAL_SRC_FILES := \
     VertexAttributeBinding.cpp \
     VertexFormat.cpp \
     VerticalLayout.cpp \
-    VisibleSetDefault.cpp \
     VRController.cpp \
     VRDevice.cpp \
     VRLatencyTester.cpp \
@@ -266,9 +257,6 @@ LOCAL_SRC_FILES := \
     lua/lua_RenderStateStencilOperation.cpp \
     lua/lua_RenderTarget.cpp \
     lua/lua_Scene.cpp \
-    lua/lua_SceneDebugFlags.cpp \
-    lua/lua_SceneRenderer.cpp \
-    lua/lua_SceneRendererForward.cpp \
     lua/lua_ScreenDisplayer.cpp \
     lua/lua_ScriptController.cpp \
     lua/lua_ScriptTarget.cpp \
@@ -303,8 +291,6 @@ LOCAL_SRC_FILES := \
     lua/lua_VertexFormatElement.cpp \
     lua/lua_VertexFormatUsage.cpp \
     lua/lua_VerticalLayout.cpp \
-    lua/lua_VisibleSet.cpp \
-    lua/lua_VisibleSetDefault.cpp \
     lua/lua_VRController.cpp \
     lua/lua_VRDevice.cpp \
     lua/lua_VRDeviceVREvent.cpp \

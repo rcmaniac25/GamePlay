@@ -64,11 +64,6 @@ inline AIController* Game::getAIController() const
     return _aiController;
 }
 
-inline SocialController* Game::getSocialController() const
-{
-    return _socialController;
-}
-
 inline VRController* Game::getVRController() const
 {
     return _vrController;
