@@ -640,6 +640,12 @@ set(GAMEPLAY_RES_SHADERS
     res/shaders/textured.vert
 )
 
+set(GAMEPLAY_RES_SHADERS
+    res/ui/arial.gpb
+    res/ui/default.png
+    res/ui/default.theme
+)
+
 include_directories( 
     src
     ../external-deps/lua/include
@@ -673,7 +679,7 @@ set_target_properties(gameplay PROPERTIES
 )
 
 source_group(lua FILES ${GAMEPLAY_LUA})
-source_group(res FILES ${GAMEPLAY_RES} ${GAMEPLAY_RES} ${GAMEPLAY_RES_SHADERS})
+source_group(res FILES ${GAMEPLAY_RES} ${GAMEPLAY_RES} ${GAMEPLAY_RES_SHADERS} ${GAMEPLAY_RES_UI})
 source_group(src FILES ${GAMEPLAY_SRC})
 
 
