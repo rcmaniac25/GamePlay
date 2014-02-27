@@ -24,12 +24,13 @@ public:
 	 * 
 	 * @param id The ID for the new TileSheet.
 	 * @param texture The texture that represents the TileSheet.
+     * @param effect Custom effect to be used in the SpriteBatch rendering the TileSheet sprites.
 	 * @param initialCapacity An optional initial capacity of the SpriteBatch.
 	 * 
 	 * @return A new TileSheet for drawing.
 	 * @script{create}
 	 */
-	static TileSheet* create(const char* id, Texture* texture, unsigned int initialCapacity = 0);
+	static TileSheet* create(const char* id, Texture* texture, unsigned int initialCapacity = 0, Effect *effect = NULL);
 
 	/**
      * Creates a TileSheet using the data from the Properties object defined at the specified URL, 

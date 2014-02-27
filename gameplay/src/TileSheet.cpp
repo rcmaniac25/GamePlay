@@ -25,9 +25,9 @@ TileSheet::~TileSheet()
     }
 }
 
-TileSheet* TileSheet::create(const char* id, Texture* texture, unsigned int initialCapacity)
+TileSheet* TileSheet::create(const char* id, Texture* texture, unsigned int initialCapacity, Effect *effect)
 {
-	SpriteBatch* sb = SpriteBatch::create(texture, NULL, initialCapacity);
+	SpriteBatch* sb = SpriteBatch::create(texture, effect, initialCapacity);
 
 	TileSheet* tileSheet = new TileSheet(id);
 	tileSheet->_batch = sb;
@@ -163,9 +163,26 @@ TileSheet* TileSheet::create(Properties* tileProperties)
     Texture::Filter minFilter = parseTextureFilterMode(tileProperties->getString("minFilter"), mipmap ? Texture::NEAREST_MIPMAP_LINEAR : Texture::LINEAR);
     Texture::Filter magFilter = parseTextureFilterMode(tileProperties->getString("magFilter"), Texture::LINEAR);
 
+    const char* vsh = tileProperties->getString("vertexShader");
+    const char* fsh = tileProperties->getString("fragmentShader");
+    const char* defines = tileProperties->getString("defines");
+
+    // Both vertex and fragment shaders need to be specified (xor check)
+    if ((vsh != NULL && strlen(vsh) != 0) ^ (fsh != NULL && strlen(fsh) != 0))
+    {
+        GP_ERROR("Both fragment and vertex shaders need to be specified if one of them is.");
+        return NULL;
+    }
+
+    Effect* effect = NULL;
+    if (vsh) // vertex and fragment shaders specified
+    {
+        effect = Effect::createFromFile(vsh, fsh, defines);
+    }
+
 	//Get the initial TileSheet
 	Texture* texture = Texture::create(path, mipmap);
-	TileSheet* tileSheet = TileSheet::create(id, texture);
+	TileSheet* tileSheet = TileSheet::create(id, texture, 0, effect);
 	SAFE_RELEASE(texture);
 
 	//Modify texture settings
