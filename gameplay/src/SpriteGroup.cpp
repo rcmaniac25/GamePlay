@@ -9,6 +9,8 @@ namespace gameplay
 // Global list of active groups
 static std::vector<SpriteGroup*> _spriteGroups;
 
+const int SpriteGroup::TYPE_DEFAULT, SpriteGroup::TYPE_CHILD, SpriteGroup::TYPE_TRANSPARENT;
+
 SpriteGroup::SpriteGroup(const char* id)
 	: Sprite(id), _groupWidth(1), _groupHeight(1), _children(), _horzGap(0), _vertGap(0), _frustumCull(true)
 {
