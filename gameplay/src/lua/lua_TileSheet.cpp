@@ -1194,7 +1194,7 @@ int lua_TileSheet_static_create(lua_State* state)
             {
                 if ((lua_type(state, 1) == LUA_TSTRING || lua_type(state, 1) == LUA_TNIL) &&
                     (lua_type(state, 2) == LUA_TUSERDATA || lua_type(state, 2) == LUA_TTABLE || lua_type(state, 2) == LUA_TNIL) &&
-                    lua_type(state, 3) == LUA_TNUMBER)
+                    (lua_type(state, 3) == LUA_TUSERDATA || lua_type(state, 3) == LUA_TTABLE || lua_type(state, 3) == LUA_TNIL))
                 {
                     // Get parameter 1 off the stack.
                     const char* param1 = gameplay::ScriptUtil::getString(1, false);
@@ -1206,9 +1206,62 @@ int lua_TileSheet_static_create(lua_State* state)
                         break;
 
                     // Get parameter 3 off the stack.
-                    unsigned int param3 = (unsigned int)luaL_checkunsigned(state, 3);
+                    bool param3Valid;
+                    gameplay::ScriptUtil::LuaArray<Effect> param3 = gameplay::ScriptUtil::getObjectPointer<Effect>(3, "Effect", false, &param3Valid);
+                    if (!param3Valid)
+                        break;
 
                     void* returnPtr = (void*)TileSheet::create(param1, param2, param3);
+                    if (returnPtr)
+                    {
+                        gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                        object->instance = returnPtr;
+                        object->owns = true;
+                        luaL_getmetatable(state, "TileSheet");
+                        lua_setmetatable(state, -2);
+                    }
+                    else
+                    {
+                        lua_pushnil(state);
+                    }
+
+                    return 1;
+                }
+            } while (0);
+
+            lua_pushstring(state, "lua_TileSheet_static_create - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        case 4:
+        {
+            do
+            {
+                if ((lua_type(state, 1) == LUA_TSTRING || lua_type(state, 1) == LUA_TNIL) &&
+                    (lua_type(state, 2) == LUA_TUSERDATA || lua_type(state, 2) == LUA_TTABLE || lua_type(state, 2) == LUA_TNIL) &&
+                    (lua_type(state, 3) == LUA_TUSERDATA || lua_type(state, 3) == LUA_TTABLE || lua_type(state, 3) == LUA_TNIL) &&
+                    lua_type(state, 4) == LUA_TNUMBER)
+                {
+                    // Get parameter 1 off the stack.
+                    const char* param1 = gameplay::ScriptUtil::getString(1, false);
+
+                    // Get parameter 2 off the stack.
+                    bool param2Valid;
+                    gameplay::ScriptUtil::LuaArray<Texture> param2 = gameplay::ScriptUtil::getObjectPointer<Texture>(2, "Texture", false, &param2Valid);
+                    if (!param2Valid)
+                        break;
+
+                    // Get parameter 3 off the stack.
+                    bool param3Valid;
+                    gameplay::ScriptUtil::LuaArray<Effect> param3 = gameplay::ScriptUtil::getObjectPointer<Effect>(3, "Effect", false, &param3Valid);
+                    if (!param3Valid)
+                        break;
+
+
+                    // Get parameter 4 off the stack.
+                    unsigned int param4 = (unsigned int)luaL_checkunsigned(state, 4);
+
+                    void* returnPtr = (void*)TileSheet::create(param1, param2, param3, param4);
                     if (returnPtr)
                     {
                         gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
