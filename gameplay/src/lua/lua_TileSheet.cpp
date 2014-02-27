@@ -1207,7 +1207,10 @@ int lua_TileSheet_static_create(lua_State* state)
                         break;
 
                     // Get parameter 3 off the stack.
-                    unsigned int param3 = (unsigned int)luaL_checkunsigned(state, 3);
+                    bool param3Valid;
+                    gameplay::ScriptUtil::LuaArray<Effect> param3 = gameplay::ScriptUtil::getObjectPointer<Effect>(3, "Effect", false, &param3Valid);
+                    if (!param3Valid)
+                        break;
 
                     void* returnPtr = (void*)TileSheet::create(param1, param2, param3);
                     if (returnPtr)
@@ -1257,7 +1260,6 @@ int lua_TileSheet_static_create(lua_State* state)
                     gameplay::ScriptUtil::LuaArray<Effect> param4 = gameplay::ScriptUtil::getObjectPointer<Effect>(4, "Effect", false, &param4Valid);
                     if (!param4Valid)
                         break;
-
 
                     void* returnPtr = (void*)TileSheet::create(param1, param2, param3, param4);
                     if (returnPtr)

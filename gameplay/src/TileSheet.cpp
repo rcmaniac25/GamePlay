@@ -25,7 +25,11 @@ TileSheet::~TileSheet()
     }
 }
 
+<<<<<<< HEAD
 TileSheet* TileSheet::create(const char* id, Texture* texture, unsigned int initialCapacity, Effect *effect)
+=======
+TileSheet* TileSheet::create(const char* id, Texture* texture, Effect *effect, unsigned int initialCapacity)
+>>>>>>> 25749c45d0309494944e15054d6c46db748f1898
 {
 	SpriteBatch* sb = SpriteBatch::create(texture, effect, initialCapacity);
 
