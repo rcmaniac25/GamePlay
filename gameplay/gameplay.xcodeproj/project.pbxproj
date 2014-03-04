@@ -297,8 +297,12 @@
 		420BBE5B1817416F00C7B720 /* lua_ScriptTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 420BBBCA1817416E00C7B720 /* lua_ScriptTarget.cpp */; };
 		420BBE5E1817416F00C7B720 /* lua_Slider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 420BBBCC1817416E00C7B720 /* lua_Slider.cpp */; };
 		420BBE5F1817416F00C7B720 /* lua_Slider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 420BBBCC1817416E00C7B720 /* lua_Slider.cpp */; };
+		8BEF98D518C661F2001399D3 /* lua_Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BEF98CF18C661F2001399D3 /* lua_Sprite.cpp */; };
+		8BEF98D618C661F2001399D3 /* lua_Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BEF98CF18C661F2001399D3 /* lua_Sprite.cpp */; };
 		420BBE621817416F00C7B720 /* lua_SpriteBatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 420BBBCE1817416E00C7B720 /* lua_SpriteBatch.cpp */; };
 		420BBE631817416F00C7B720 /* lua_SpriteBatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 420BBBCE1817416E00C7B720 /* lua_SpriteBatch.cpp */; };
+		8BEF98D718C661F2001399D3 /* lua_SpriteGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BEF98D118C661F2001399D3 /* lua_SpriteGroup.cpp */; };
+		8BEF98D818C661F2001399D3 /* lua_SpriteGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BEF98D118C661F2001399D3 /* lua_SpriteGroup.cpp */; };
 		420BBE661817416F00C7B720 /* lua_Technique.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 420BBBD01817416E00C7B720 /* lua_Technique.cpp */; };
 		420BBE671817416F00C7B720 /* lua_Technique.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 420BBBD01817416E00C7B720 /* lua_Technique.cpp */; };
 		420BBE6A1817416F00C7B720 /* lua_Terrain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 420BBBD21817416E00C7B720 /* lua_Terrain.cpp */; };
@@ -329,6 +333,8 @@
 		420BBE9F1817416F00C7B720 /* lua_ThemeThemeImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 420BBBEC1817416F00C7B720 /* lua_ThemeThemeImage.cpp */; };
 		420BBEA21817416F00C7B720 /* lua_ThemeUVs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 420BBBEE1817416F00C7B720 /* lua_ThemeUVs.cpp */; };
 		420BBEA31817416F00C7B720 /* lua_ThemeUVs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 420BBBEE1817416F00C7B720 /* lua_ThemeUVs.cpp */; };
+		8BEF98D918C661F2001399D3 /* lua_TileSheet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BEF98D318C661F2001399D3 /* lua_TileSheet.cpp */; };
+		8BEF98DA18C661F2001399D3 /* lua_TileSheet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BEF98D318C661F2001399D3 /* lua_TileSheet.cpp */; };
 		420BBEA61817416F00C7B720 /* lua_Touch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 420BBBF01817416F00C7B720 /* lua_Touch.cpp */; };
 		420BBEA71817416F00C7B720 /* lua_Touch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 420BBBF01817416F00C7B720 /* lua_Touch.cpp */; };
 		420BBEAA1817416F00C7B720 /* lua_TouchTouchEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 420BBBF21817416F00C7B720 /* lua_TouchTouchEvent.cpp */; };
@@ -554,8 +560,12 @@
 		42CC59B71809A4EF00AAD8AD /* ScriptTarget.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CC552F1809A4EE00AAD8AD /* ScriptTarget.cpp */; };
 		42CC59BA1809A4EF00AAD8AD /* Slider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CC55311809A4EE00AAD8AD /* Slider.cpp */; };
 		42CC59BB1809A4EF00AAD8AD /* Slider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CC55311809A4EE00AAD8AD /* Slider.cpp */; };
+		8BEF98E118C66213001399D3 /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BEF98DB18C66213001399D3 /* Sprite.cpp */; };
+		8BEF98E218C66213001399D3 /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BEF98DB18C66213001399D3 /* Sprite.cpp */; };
 		42CC59E01809A4EF00AAD8AD /* SpriteBatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CC55451809A4EE00AAD8AD /* SpriteBatch.cpp */; };
 		42CC59E11809A4EF00AAD8AD /* SpriteBatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CC55451809A4EE00AAD8AD /* SpriteBatch.cpp */; };
+		8BEF98E318C66213001399D3 /* SpriteGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BEF98DD18C66213001399D3 /* SpriteGroup.cpp */; };
+		8BEF98E418C66213001399D3 /* SpriteGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BEF98DD18C66213001399D3 /* SpriteGroup.cpp */; };
 		42CC59E61809A4EF00AAD8AD /* Technique.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CC55481809A4EE00AAD8AD /* Technique.cpp */; };
 		42CC59E71809A4EF00AAD8AD /* Technique.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CC55481809A4EE00AAD8AD /* Technique.cpp */; };
 		42CC59EA1809A4EF00AAD8AD /* Terrain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CC554A1809A4EE00AAD8AD /* Terrain.cpp */; };
@@ -570,6 +580,8 @@
 		42CC59FB1809A4EF00AAD8AD /* Theme.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CC55521809A4EE00AAD8AD /* Theme.cpp */; };
 		42CC59FE1809A4EF00AAD8AD /* ThemeStyle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CC55541809A4EE00AAD8AD /* ThemeStyle.cpp */; };
 		42CC59FF1809A4EF00AAD8AD /* ThemeStyle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CC55541809A4EE00AAD8AD /* ThemeStyle.cpp */; };
+		8BEF98E518C66213001399D3 /* TileSheet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BEF98DF18C66213001399D3 /* TileSheet.cpp */; };
+		8BEF98E618C66213001399D3 /* TileSheet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BEF98DF18C66213001399D3 /* TileSheet.cpp */; };
 		42CC5A061809A4EF00AAD8AD /* Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CC55581809A4EE00AAD8AD /* Transform.cpp */; };
 		42CC5A071809A4EF00AAD8AD /* Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CC55581809A4EE00AAD8AD /* Transform.cpp */; };
 		42CC5A0A1809A4EF00AAD8AD /* Vector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42CC555A1809A4EE00AAD8AD /* Vector2.cpp */; };
@@ -890,8 +902,12 @@
 		420BBBCB1817416E00C7B720 /* lua_ScriptTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_ScriptTarget.h; sourceTree = "<group>"; };
 		420BBBCC1817416E00C7B720 /* lua_Slider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_Slider.cpp; sourceTree = "<group>"; };
 		420BBBCD1817416E00C7B720 /* lua_Slider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_Slider.h; sourceTree = "<group>"; };
+		8BEF98CF18C661F2001399D3 /* lua_Sprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_Sprite.cpp; sourceTree = "<group>"; };
+		8BEF98D018C661F2001399D3 /* lua_Sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_Sprite.h; sourceTree = "<group>"; };
 		420BBBCE1817416E00C7B720 /* lua_SpriteBatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_SpriteBatch.cpp; sourceTree = "<group>"; };
 		420BBBCF1817416E00C7B720 /* lua_SpriteBatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_SpriteBatch.h; sourceTree = "<group>"; };
+		8BEF98D118C661F2001399D3 /* lua_SpriteGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_SpriteGroup.cpp; sourceTree = "<group>"; };
+		8BEF98D218C661F2001399D3 /* lua_SpriteGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_SpriteGroup.h; sourceTree = "<group>"; };
 		420BBBD01817416E00C7B720 /* lua_Technique.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_Technique.cpp; sourceTree = "<group>"; };
 		420BBBD11817416E00C7B720 /* lua_Technique.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_Technique.h; sourceTree = "<group>"; };
 		420BBBD21817416E00C7B720 /* lua_Terrain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_Terrain.cpp; sourceTree = "<group>"; };
@@ -922,6 +938,8 @@
 		420BBBED1817416F00C7B720 /* lua_ThemeThemeImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_ThemeThemeImage.h; sourceTree = "<group>"; };
 		420BBBEE1817416F00C7B720 /* lua_ThemeUVs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_ThemeUVs.cpp; sourceTree = "<group>"; };
 		420BBBEF1817416F00C7B720 /* lua_ThemeUVs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_ThemeUVs.h; sourceTree = "<group>"; };
+		8BEF98D318C661F2001399D3 /* lua_TileSheet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_TileSheet.cpp; sourceTree = "<group>"; };
+		8BEF98D418C661F2001399D3 /* lua_TileSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_TileSheet.h; sourceTree = "<group>"; };
 		420BBBF01817416F00C7B720 /* lua_Touch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_Touch.cpp; sourceTree = "<group>"; };
 		420BBBF11817416F00C7B720 /* lua_Touch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lua_Touch.h; sourceTree = "<group>"; };
 		420BBBF21817416F00C7B720 /* lua_TouchTouchEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_TouchTouchEvent.cpp; sourceTree = "<group>"; };
@@ -1164,8 +1182,12 @@
 		42CC55301809A4EE00AAD8AD /* ScriptTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScriptTarget.h; path = src/ScriptTarget.h; sourceTree = SOURCE_ROOT; };
 		42CC55311809A4EE00AAD8AD /* Slider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Slider.cpp; path = src/Slider.cpp; sourceTree = SOURCE_ROOT; };
 		42CC55321809A4EE00AAD8AD /* Slider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Slider.h; path = src/Slider.h; sourceTree = SOURCE_ROOT; };
+		8BEF98DB18C66213001399D3 /* Sprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Sprite.cpp; path = src/Sprite.cpp; sourceTree = SOURCE_ROOT; };
+		8BEF98DC18C66213001399D3 /* Sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Sprite.h; path = src/Sprite.h; sourceTree = SOURCE_ROOT; };
 		42CC55451809A4EE00AAD8AD /* SpriteBatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpriteBatch.cpp; path = src/SpriteBatch.cpp; sourceTree = SOURCE_ROOT; };
 		42CC55461809A4EE00AAD8AD /* SpriteBatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpriteBatch.h; path = src/SpriteBatch.h; sourceTree = SOURCE_ROOT; };
+		8BEF98DD18C66213001399D3 /* SpriteGroup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SpriteGroup.cpp; path = src/SpriteGroup.cpp; sourceTree = SOURCE_ROOT; };
+		8BEF98DE18C66213001399D3 /* SpriteGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpriteGroup.h; path = src/SpriteGroup.h; sourceTree = SOURCE_ROOT; };
 		42CC55471809A4EE00AAD8AD /* Stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stream.h; path = src/Stream.h; sourceTree = SOURCE_ROOT; };
 		42CC55481809A4EE00AAD8AD /* Technique.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Technique.cpp; path = src/Technique.cpp; sourceTree = SOURCE_ROOT; };
 		42CC55491809A4EE00AAD8AD /* Technique.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Technique.h; path = src/Technique.h; sourceTree = SOURCE_ROOT; };
@@ -1181,6 +1203,8 @@
 		42CC55531809A4EE00AAD8AD /* Theme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Theme.h; path = src/Theme.h; sourceTree = SOURCE_ROOT; };
 		42CC55541809A4EE00AAD8AD /* ThemeStyle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ThemeStyle.cpp; path = src/ThemeStyle.cpp; sourceTree = SOURCE_ROOT; };
 		42CC55551809A4EE00AAD8AD /* ThemeStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ThemeStyle.h; path = src/ThemeStyle.h; sourceTree = SOURCE_ROOT; };
+		8BEF98DF18C66213001399D3 /* TileSheet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TileSheet.cpp; path = src/TileSheet.cpp; sourceTree = SOURCE_ROOT; };
+		8BEF98E018C66213001399D3 /* TileSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TileSheet.h; path = src/TileSheet.h; sourceTree = SOURCE_ROOT; };
 		42CC55561809A4EE00AAD8AD /* TimeListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeListener.h; path = src/TimeListener.h; sourceTree = SOURCE_ROOT; };
 		42CC55571809A4EE00AAD8AD /* Touch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Touch.h; path = src/Touch.h; sourceTree = SOURCE_ROOT; };
 		42CC55581809A4EE00AAD8AD /* Transform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Transform.cpp; path = src/Transform.cpp; sourceTree = SOURCE_ROOT; };
@@ -1553,8 +1577,12 @@
 				420BBBCB1817416E00C7B720 /* lua_ScriptTarget.h */,
 				420BBBCC1817416E00C7B720 /* lua_Slider.cpp */,
 				420BBBCD1817416E00C7B720 /* lua_Slider.h */,
+				8BEF98CF18C661F2001399D3 /* lua_Sprite.cpp */,
+				8BEF98D018C661F2001399D3 /* lua_Sprite.h */,
 				420BBBCE1817416E00C7B720 /* lua_SpriteBatch.cpp */,
 				420BBBCF1817416E00C7B720 /* lua_SpriteBatch.h */,
+				8BEF98D118C661F2001399D3 /* lua_SpriteGroup.cpp */,
+				8BEF98D218C661F2001399D3 /* lua_SpriteGroup.h */,
 				420BBBD01817416E00C7B720 /* lua_Technique.cpp */,
 				420BBBD11817416E00C7B720 /* lua_Technique.h */,
 				420BBBD21817416E00C7B720 /* lua_Terrain.cpp */,
@@ -1587,6 +1615,8 @@
 				420BBBED1817416F00C7B720 /* lua_ThemeThemeImage.h */,
 				420BBBEE1817416F00C7B720 /* lua_ThemeUVs.cpp */,
 				420BBBEF1817416F00C7B720 /* lua_ThemeUVs.h */,
+				8BEF98D318C661F2001399D3 /* lua_TileSheet.cpp */,
+				8BEF98D418C661F2001399D3 /* lua_TileSheet.h */,
 				420BBBF01817416F00C7B720 /* lua_Touch.cpp */,
 				420BBBF11817416F00C7B720 /* lua_Touch.h */,
 				420BBBF21817416F00C7B720 /* lua_TouchTouchEvent.cpp */,
@@ -1850,8 +1880,12 @@
 				42CC55301809A4EE00AAD8AD /* ScriptTarget.h */,
 				42CC55311809A4EE00AAD8AD /* Slider.cpp */,
 				42CC55321809A4EE00AAD8AD /* Slider.h */,
+				8BEF98DB18C66213001399D3 /* Sprite.cpp */,
+				8BEF98DC18C66213001399D3 /* Sprite.h */,
 				42CC55451809A4EE00AAD8AD /* SpriteBatch.cpp */,
 				42CC55461809A4EE00AAD8AD /* SpriteBatch.h */,
+				8BEF98DD18C66213001399D3 /* SpriteGroup.cpp */,
+				8BEF98DE18C66213001399D3 /* SpriteGroup.h */,
 				42CC55471809A4EE00AAD8AD /* Stream.h */,
 				42CC55481809A4EE00AAD8AD /* Technique.cpp */,
 				42CC55491809A4EE00AAD8AD /* Technique.h */,
@@ -1867,6 +1901,8 @@
 				42CC55531809A4EE00AAD8AD /* Theme.h */,
 				42CC55541809A4EE00AAD8AD /* ThemeStyle.cpp */,
 				42CC55551809A4EE00AAD8AD /* ThemeStyle.h */,
+				8BEF98DF18C66213001399D3 /* TileSheet.cpp */,
+				8BEF98E018C66213001399D3 /* TileSheet.h */,
 				42CC55561809A4EE00AAD8AD /* TimeListener.h */,
 				42CC55571809A4EE00AAD8AD /* Touch.h */,
 				42CC55581809A4EE00AAD8AD /* Transform.cpp */,
@@ -2029,6 +2065,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				420BBCB61817416F00C7B720 /* lua_Effect.cpp in Sources */,
+				8BEF98D718C661F2001399D3 /* lua_SpriteGroup.cpp in Sources */,
 				420BBE3A1817416F00C7B720 /* lua_RenderStateStencilOperation.cpp in Sources */,
 				420BBDDE1817416F00C7B720 /* lua_PhysicsRigidBody.cpp in Sources */,
 				42CC59861809A4EF00AAD8AD /* RadioButton.cpp in Sources */,
@@ -2044,6 +2081,7 @@
 				420BBC861817416F00C7B720 /* lua_Container.cpp in Sources */,
 				420BBC5A1817416F00C7B720 /* lua_AudioController.cpp in Sources */,
 				420BBE0E1817416F00C7B720 /* lua_Ray.cpp in Sources */,
+				8BEF98E518C66213001399D3 /* TileSheet.cpp in Sources */,
 				420BBD821817416F00C7B720 /* lua_NodeType.cpp in Sources */,
 				42CC59AE1809A4EF00AAD8AD /* ScreenDisplayer.cpp in Sources */,
 				42CC599A1809A4EF00AAD8AD /* RenderTarget.cpp in Sources */,
@@ -2120,6 +2158,7 @@
 				420BBCB21817416F00C7B720 /* lua_DepthStencilTargetFormat.cpp in Sources */,
 				420BBCAE1817416F00C7B720 /* lua_DepthStencilTarget.cpp in Sources */,
 				42CC59821809A4EF00AAD8AD /* Quaternion.cpp in Sources */,
+				8BEF98E318C66213001399D3 /* SpriteGroup.cpp in Sources */,
 				42CC59E01809A4EF00AAD8AD /* SpriteBatch.cpp in Sources */,
 				420BBE021817416F00C7B720 /* lua_PropertiesType.cpp in Sources */,
 				420BBD221817416F00C7B720 /* lua_KeyboardKey.cpp in Sources */,
@@ -2167,6 +2206,7 @@
 				42CC59BA1809A4EF00AAD8AD /* Slider.cpp in Sources */,
 				420BBC5E1817416F00C7B720 /* lua_AudioListener.cpp in Sources */,
 				420BBC521817416F00C7B720 /* lua_AnimationValue.cpp in Sources */,
+				8BEF98D918C661F2001399D3 /* lua_TileSheet.cpp in Sources */,
 				420BBC9E1817416F00C7B720 /* lua_ControlListenerEventType.cpp in Sources */,
 				420BBC261817416F00C7B720 /* lua_AIMessageParameterType.cpp in Sources */,
 				42CC59321809A4EF00AAD8AD /* PhysicsCharacter.cpp in Sources */,
@@ -2188,6 +2228,7 @@
 				42CC59261809A4EF00AAD8AD /* Node.cpp in Sources */,
 				42CC597A1809A4EF00AAD8AD /* PlatformMacOSX.mm in Sources */,
 				420BBEAE1817416F00C7B720 /* lua_Transform.cpp in Sources */,
+				8BEF98E118C66213001399D3 /* Sprite.cpp in Sources */,
 				420BBD961817416F00C7B720 /* lua_PhysicsCollisionObject.cpp in Sources */,
 				420BBDEE1817416F00C7B720 /* lua_PhysicsVehicle.cpp in Sources */,
 				420BBC2E1817416F00C7B720 /* lua_AIStateListener.cpp in Sources */,
@@ -2278,6 +2319,7 @@
 				420BBC421817416F00C7B720 /* lua_AnimationClipListener.cpp in Sources */,
 				420BBE161817416F00C7B720 /* lua_Ref.cpp in Sources */,
 				420BBD6A1817416F00C7B720 /* lua_MeshSkin.cpp in Sources */,
+				8BEF98D518C661F2001399D3 /* lua_Sprite.cpp in Sources */,
 				42CC594A1809A4EF00AAD8AD /* PhysicsGenericConstraint.cpp in Sources */,
 				420BBC321817416F00C7B720 /* lua_AIStateMachine.cpp in Sources */,
 				420BBD4E1817416F00C7B720 /* lua_MathUtil.cpp in Sources */,
@@ -2324,6 +2366,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				420BBCB71817416F00C7B720 /* lua_Effect.cpp in Sources */,
+				8BEF98D818C661F2001399D3 /* lua_SpriteGroup.cpp in Sources */,
 				420BBE3B1817416F00C7B720 /* lua_RenderStateStencilOperation.cpp in Sources */,
 				420BBDDF1817416F00C7B720 /* lua_PhysicsRigidBody.cpp in Sources */,
 				42CC59871809A4EF00AAD8AD /* RadioButton.cpp in Sources */,
@@ -2339,6 +2382,7 @@
 				420BBC871817416F00C7B720 /* lua_Container.cpp in Sources */,
 				420BBC5B1817416F00C7B720 /* lua_AudioController.cpp in Sources */,
 				420BBE0F1817416F00C7B720 /* lua_Ray.cpp in Sources */,
+				8BEF98E618C66213001399D3 /* TileSheet.cpp in Sources */,
 				420BBD831817416F00C7B720 /* lua_NodeType.cpp in Sources */,
 				42CC59AF1809A4EF00AAD8AD /* ScreenDisplayer.cpp in Sources */,
 				42CC599B1809A4EF00AAD8AD /* RenderTarget.cpp in Sources */,
@@ -2415,6 +2459,7 @@
 				420BBCB31817416F00C7B720 /* lua_DepthStencilTargetFormat.cpp in Sources */,
 				420BBCAF1817416F00C7B720 /* lua_DepthStencilTarget.cpp in Sources */,
 				42CC5A1F1809A4EF00AAD8AD /* VerticalLayout.cpp in Sources */,
+				8BEF98E418C66213001399D3 /* SpriteGroup.cpp in Sources */,
 				42CC59831809A4EF00AAD8AD /* Quaternion.cpp in Sources */,
 				42CC59E11809A4EF00AAD8AD /* SpriteBatch.cpp in Sources */,
 				420BBE031817416F00C7B720 /* lua_PropertiesType.cpp in Sources */,
@@ -2462,6 +2507,7 @@
 				42CC55A11809A4EF00AAD8AD /* AudioListener.cpp in Sources */,
 				42CC5A131809A4EF00AAD8AD /* Vector4.cpp in Sources */,
 				420BBC5F1817416F00C7B720 /* lua_AudioListener.cpp in Sources */,
+				8BEF98DA18C661F2001399D3 /* lua_TileSheet.cpp in Sources */,
 				420BBC531817416F00C7B720 /* lua_AnimationValue.cpp in Sources */,
 				420BBC9F1817416F00C7B720 /* lua_ControlListenerEventType.cpp in Sources */,
 				420BBC271817416F00C7B720 /* lua_AIMessageParameterType.cpp in Sources */,
@@ -2483,6 +2529,7 @@
 				420BBDD71817416F00C7B720 /* lua_PhysicsGhostObject.cpp in Sources */,
 				420BBCE71817416F00C7B720 /* lua_GameClearFlags.cpp in Sources */,
 				42CC59271809A4EF00AAD8AD /* Node.cpp in Sources */,
+				8BEF98E218C66213001399D3 /* Sprite.cpp in Sources */,
 				420BBEAF1817416F00C7B720 /* lua_Transform.cpp in Sources */,
 				420BBD971817416F00C7B720 /* lua_PhysicsCollisionObject.cpp in Sources */,
 				420BBDEF1817416F00C7B720 /* lua_PhysicsVehicle.cpp in Sources */,
@@ -2573,6 +2620,7 @@
 				420BBC431817416F00C7B720 /* lua_AnimationClipListener.cpp in Sources */,
 				420BBE171817416F00C7B720 /* lua_Ref.cpp in Sources */,
 				420BBD6B1817416F00C7B720 /* lua_MeshSkin.cpp in Sources */,
+				8BEF98D618C661F2001399D3 /* lua_Sprite.cpp in Sources */,
 				42CC594B1809A4EF00AAD8AD /* PhysicsGenericConstraint.cpp in Sources */,
 				420BBC331817416F00C7B720 /* lua_AIStateMachine.cpp in Sources */,
 				420BBD4F1817416F00C7B720 /* lua_MathUtil.cpp in Sources */,
