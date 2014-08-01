@@ -384,7 +384,7 @@ int TerrainPatch::addSampler(const char* path)
         return -1;
 
     // Textures should only be 2D
-    if (texture->getType() != Texture::TEX_2D)
+    if (texture->getType() != Texture::TEXTURE_2D)
     {
         SAFE_RELEASE(texture);
         return -1;

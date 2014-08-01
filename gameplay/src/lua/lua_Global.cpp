@@ -900,9 +900,9 @@ void luaRegister_lua_Global()
     {
         std::vector<std::string> scopePath;
         scopePath.push_back("Texture");
-        gameplay::ScriptUtil::registerConstantString("TEX_UNKNOWN", "TEX_UNKNOWN", scopePath);
-        gameplay::ScriptUtil::registerConstantString("TEX_2D", "TEX_2D", scopePath);
-        gameplay::ScriptUtil::registerConstantString("TEX_CUBE", "TEX_CUBE", scopePath);
+        gameplay::ScriptUtil::registerConstantString("TEXTURE_UNKNOWN", "TEXTURE_UNKNOWN", scopePath);
+        gameplay::ScriptUtil::registerConstantString("TEXTURE_2D", "TEXTURE_2D", scopePath);
+        gameplay::ScriptUtil::registerConstantString("TEXTURE_CUBE", "TEXTURE_CUBE", scopePath);
     }
 
     // Register enumeration Texture::Wrap.

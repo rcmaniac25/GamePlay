@@ -56,9 +56,9 @@ public:
      */
     enum Type
     {
-        TEX_UNKNOWN,
-        TEX_2D,
-        TEX_CUBE
+        TEXTURE_UNKNOWN = 0,
+		TEXTURE_2D = GL_TEXTURE_2D,
+		TEXTURE_CUBE = GL_TEXTURE_CUBE_MAP
     };
 
     /**
@@ -207,7 +207,7 @@ public:
      * @return The new texture.
      * @script{create}
      */
-    static Texture* create(Format format, unsigned int width, unsigned int height, const unsigned char* data, bool generateMipmaps = false, Type type = TEX_2D);
+	static Texture* create(Format format, unsigned int width, unsigned int height, const unsigned char* data, bool generateMipmaps = false, Type type = TEXTURE_2D);
 
     /**
      * Creates a texture object to wrap the specified pre-created native texture handle.

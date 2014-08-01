@@ -49,9 +49,9 @@ namespace gameplay
 
 static std::vector<Texture*> __textureCache;
 static TextureHandle __currentTextureId = 0;
-static Texture::Type __currentTextureType = Texture::TEX_2D;
+static Texture::Type __currentTextureType = Texture::TEXTURE_2D;
 
-Texture::Texture() : _handle(0), _format(UNKNOWN), _type(TEX_UNKNOWN), _width(0), _height(0), _mipmapped(false), _cached(false), _compressed(false),
+Texture::Texture() : _handle(0), _format(UNKNOWN), _type(TEXTURE_UNKNOWN), _width(0), _height(0), _mipmapped(false), _cached(false), _compressed(false),
     _wrapS(Texture::REPEAT), _wrapT(Texture::REPEAT), _wrapR(Texture::REPEAT), _minFilter(Texture::NEAREST_MIPMAP_LINEAR), _magFilter(Texture::LINEAR), _cubeFace(NOT_A_FACE), _cubeFaces(NULL)
 {
 }
@@ -174,9 +174,9 @@ Texture* Texture::create(Image* image, bool generateMipmaps)
 
 Texture* Texture::create(Format format, unsigned int width, unsigned int height, const unsigned char* data, bool generateMipmaps, Texture::Type type)
 {
-    GP_ASSERT( type == Texture::TEX_2D || type == Texture::TEX_CUBE );
+    GP_ASSERT( type == Texture::TEXTURE_2D || type == Texture::TEXTURE_CUBE );
 
-    GLenum target = type == Texture::TEX_2D ? GL_TEXTURE_2D : GL_TEXTURE_CUBE_MAP;
+	GLenum target = (GLenum)type;
 
     // Create the texture.
     GLuint textureId;
@@ -191,7 +191,7 @@ Texture* Texture::create(Format format, unsigned int width, unsigned int height,
 #endif
 
     // Load the texture
-    if (type == Texture::TEX_2D)
+    if (type == Texture::TEXTURE_2D)
     {
         // Texture 2D
         GL_ASSERT( glTexImage2D(GL_TEXTURE_2D, 0, (GLenum)format, width, height, 0, (GLenum)format, GL_UNSIGNED_BYTE, data) );
@@ -244,7 +244,7 @@ Texture* Texture::create(Format format, unsigned int width, unsigned int height,
     }
 
     // Restore the texture id
-    GL_ASSERT( glBindTexture(__currentTextureType == Texture::TEX_2D ? GL_TEXTURE_2D : GL_TEXTURE_CUBE_MAP, __currentTextureId) );
+    GL_ASSERT( glBindTexture((GLenum)__currentTextureType, __currentTextureId) );
 
     return texture;
 }
@@ -260,16 +260,16 @@ Texture* Texture::create(TextureHandle handle, int width, int height, Format for
         glBindTexture(GL_TEXTURE_CUBE_MAP, handle);
         if (glGetError() == GL_NO_ERROR)
         {
-            texture->_type = TEX_CUBE;
+            texture->_type = TEXTURE_CUBE;
         }
         else
         {
             // For now, it's either or. But if 3D textures and others are added, it might be useful to simply test a bunch of bindings and seeing which one doesn't error out
-            texture->_type = TEX_2D;
+            texture->_type = TEXTURE_2D;
         }
 
         // Restore the texture id
-        GL_ASSERT( glBindTexture(__currentTextureType == Texture::TEX_2D ? GL_TEXTURE_2D : GL_TEXTURE_CUBE_MAP, __currentTextureId) );
+        GL_ASSERT( glBindTexture((GLenum)__currentTextureType, __currentTextureId) );
     }
     texture->_handle = handle;
     texture->_format = format;
@@ -366,7 +366,7 @@ Texture* Texture::createCompressedPVRTC(const char* path)
 
     Texture* texture = new Texture();
     texture->_handle = textureId;
-    texture->_type = faceCount > 1 ? TEX_CUBE : TEX_2D;
+    texture->_type = faceCount > 1 ? TEXTURE_CUBE : TEXTURE_2D;
     texture->_width = width;
     texture->_height = height;
     texture->_mipmapped = mipMapCount > 1;
@@ -394,7 +394,7 @@ Texture* Texture::createCompressedPVRTC(const char* path)
     SAFE_DELETE_ARRAY(data);
 
     // Restore the texture id
-    GL_ASSERT( glBindTexture(__currentTextureType == Texture::TEX_2D ? GL_TEXTURE_2D : GL_TEXTURE_CUBE_MAP, __currentTextureId) );
+    GL_ASSERT( glBindTexture((GLenum)__currentTextureType, __currentTextureId) );
 
     return texture;
 }
@@ -1009,7 +1009,7 @@ Texture* Texture::createCompressedDDS(const char* path)
     // Create gameplay texture.
     texture = new Texture();
     texture->_handle = textureId;
-    texture->_type = target == GL_TEXTURE_2D ? TEX_2D : TEX_CUBE;
+    texture->_type = (Type)target;
     texture->_width = header.dwWidth;
     texture->_height = header.dwHeight;
     texture->_compressed = compressed;
@@ -1041,7 +1041,7 @@ Texture* Texture::createCompressedDDS(const char* path)
     SAFE_DELETE_ARRAY(mipLevels);
 
     // Restore the texture id
-    GL_ASSERT( glBindTexture(__currentTextureType == Texture::TEX_2D ? GL_TEXTURE_2D : GL_TEXTURE_CUBE_MAP, __currentTextureId) );
+    GL_ASSERT( glBindTexture((GLenum)__currentTextureType, __currentTextureId) );
 
     return texture;
 }
@@ -1083,7 +1083,7 @@ TextureHandle Texture::getHandle() const
 
 Texture* Texture::getFaceTexture(Texture::CubeFace face)
 {
-    GP_ASSERT( _type == Texture::TEX_CUBE );
+    GP_ASSERT( _type == Texture::TEXTURE_CUBE );
     GP_ASSERT( face >= Texture::POS_X && face <= Texture::NEG_Z );
 
     if (!_cubeFaces)
@@ -1098,7 +1098,7 @@ Texture* Texture::getFaceTexture(Texture::CubeFace face)
 
         tFace->_handle = _handle;
         tFace->_format = _format;
-        tFace->_type = TEX_2D;
+        tFace->_type = TEXTURE_2D;
         tFace->_width = _width;
         tFace->_height = _height;
         tFace->_mipmapped = _mipmapped;
@@ -1114,24 +1114,12 @@ void Texture::generateMipmaps()
 {
     if (!_mipmapped)
     {
-        GLenum target = 0;
-        if (_type == Texture::TEX_2D && _cubeFace != Texture::NOT_A_FACE)
+        if (_type == Texture::TEXTURE_2D && _cubeFace != Texture::NOT_A_FACE)
         {
             // We can't mipmap a face of a cube map
             return;
         }
-        switch (_type)
-        {
-            case Texture::TEX_2D:
-                target = GL_TEXTURE_2D;
-                break;
-            case Texture::TEX_CUBE:
-                target = GL_TEXTURE_CUBE_MAP;
-                break;
-            default:
-                target = 0; // Will probably cause error
-                break;
-        }
+		GLenum target = (GLenum)_type;
         GL_ASSERT( glBindTexture(target, _handle) );
         GL_ASSERT( glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST) );
         if( std::addressof(glGenerateMipmap) )
@@ -1150,7 +1138,7 @@ void Texture::generateMipmaps()
         }
 
         // Restore the texture id
-        GL_ASSERT( glBindTexture(__currentTextureType == Texture::TEX_2D ? GL_TEXTURE_2D : GL_TEXTURE_CUBE_MAP, __currentTextureId) );
+        GL_ASSERT( glBindTexture((GLenum)__currentTextureType, __currentTextureId) );
     }
 }
 
@@ -1180,7 +1168,7 @@ Texture::Sampler::~Sampler()
 Texture::Sampler* Texture::Sampler::create(Texture* texture)
 {
     GP_ASSERT( texture );
-    GP_ASSERT( texture->_type == Texture::TEX_2D || texture->_type == Texture::TEX_CUBE );
+    GP_ASSERT( texture->_type == Texture::TEXTURE_2D || texture->_type == Texture::TEXTURE_CUBE );
     GP_ASSERT( texture->_cubeFace == Texture::NOT_A_FACE );
     texture->addRef();
     return new Sampler(texture);
@@ -1214,7 +1202,7 @@ void Texture::Sampler::bind()
 {
     GP_ASSERT( _texture );
 
-    GLenum target = _texture->_type == Texture::TEX_2D && _texture->_cubeFace == Texture::NOT_A_FACE ? GL_TEXTURE_2D : GL_TEXTURE_CUBE_MAP;
+    GLenum target = _texture->_type == Texture::TEXTURE_2D && _texture->_cubeFace == Texture::NOT_A_FACE ? GL_TEXTURE_2D : GL_TEXTURE_CUBE_MAP;
     if (__currentTextureId != _texture->_handle)
     {
         GL_ASSERT( glBindTexture(target, _texture->_handle) );
