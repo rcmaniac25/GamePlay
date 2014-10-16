@@ -320,6 +320,7 @@ bool Node::isActiveInHierarchy() const
    {
        if (!node->_active)
            return false;
+       node = node->_parent;
    }
    return true;
 }
@@ -438,15 +439,6 @@ Node* Node::getRootNode() const
         n = n->getParent();
     }
     return n;
-}
-
-void Node::update(float elapsedTime)
-{
-    for (Node* node = _firstChild; node != NULL; node = node->_nextSibling)
-    {
-        if (node->isActive())
-            node->update(elapsedTime);
-    }
 }
 
 bool Node::isStatic() const
