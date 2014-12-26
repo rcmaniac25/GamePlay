@@ -58,7 +58,8 @@ private:
             ROTATE = 256,
             SCALE = 512,
             URL = 1024,
-            SPRITE = 2048
+            SCRIPT = 2048
+            SPRITE = 4096
         };
 
         SceneNodeProperty(Type type, const std::string& value, int index, bool isUrl);

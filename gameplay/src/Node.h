@@ -2,6 +2,7 @@
 #define NODE_H_
 
 #include "Transform.h"
+#include "ScriptTarget.h"
 #include "Camera.h"
 #include "Light.h"
 #include "Model.h"
@@ -29,7 +30,7 @@ class Terrain;
  * Model, Camera, Light, PhysicsCollisionObject, AudioSource, ParticleEmitter and
  * Form components.
  *
- * @see http://blackberry.github.io/GamePlay/docs/file-formats.html#wiki-Node
+ * @see http://gameplay3d.github.io/GamePlay/docs/file-formats.html#wiki-Node
  */
 class Node : public Transform, public Ref
 {
@@ -37,6 +38,14 @@ class Node : public Transform, public Ref
     friend class Bundle;
     friend class MeshSkin;
     friend class Light;
+
+    GP_SCRIPT_EVENTS_START();
+    GP_SCRIPT_EVENT(update, "<Node>f");
+    GP_SCRIPT_EVENT(messageReceived, "<Node><AIMessage>");
+    GP_SCRIPT_EVENT(stateEnter, "<Node><AIState>");
+    GP_SCRIPT_EVENT(stateExit, "<Node><AIState>");
+    GP_SCRIPT_EVENT(stateUpdate, "<Node><AIState>f");
+    GP_SCRIPT_EVENTS_END();
 
 public:
 
@@ -56,6 +65,14 @@ public:
      * @script{create}
      */
     static Node* create(const char* id = NULL);
+
+    /**
+     * Extends ScriptTarget::getTypeName() to return the type name of this class.
+     *
+     * @return The type name of this class: "Node"
+     * @see ScriptTarget::getTypeName()
+     */
+    const char* getTypeName() const;
 
     /**
      * Gets the identifier for the node.
@@ -188,25 +205,25 @@ public:
     void setUserPointer(void* pointer, void (*cleanupCallback)(void*) = NULL);
 
     /**
-     * Sets if the node is active in the scene.
+     * Sets if the node is enabled in the scene.
      *
-     * @param active if the node is active in the scene.
+     * @param enabled if the node is enabled in the scene.
      */
-    void setActive(bool active);
+    void setEnabled(bool enabled);
 
     /**
-     * Gets if the node is active in the scene.
+     * Gets if the node is enabled in the scene.
      *
-     * @return if the node is active in the scene.
+     * @return if the node is enabled in the scene.
      */
-    bool isActive() const;
+    bool isEnabled() const;
 
     /**
-     * Gets if the node  either inherited active.
+     * Gets if the node either inherently enabled.
      *
-     * @return if visual components attached on this node should be drawn.
+     * @return if components attached on this node should be running.
      */
-    bool isActiveInHierarchy() const;
+    bool isEnabledInHierarchy() const;
 
     /**
      * Returns the number of direct children of this item.
@@ -256,6 +273,18 @@ public:
      * Gets the top level node in this node's parent hierarchy.
      */
     Node* getRootNode() const;
+
+    /**
+     * Called to update the state of this Node.
+     *
+     * This method is called by Scene::update(float) to update the state of all active
+     * nodes in a scene. A Node is considered active if Node::isActive() returns true.
+     *
+     * If any scripts are attached to the node, their update event will be fired.
+     *
+     * @param elapsedTime Elapsed time in milliseconds.
+     */
+    void update(float elapsedTime);
 
     /**
      * Returns whether the transformation of this node is static.
@@ -789,9 +818,9 @@ protected:
     unsigned int _childCount;
 
     /**
-     * If this node is active in the scrne. This may not be active in hierarchy if its parents are not active.
+     * If this node is enabled in the scene. This may not be enabled in hierarchy if its parents are not enabled.
      */
-    bool _active;
+    bool _enabled;
 
     /**
      * List of custom tags for a node.
@@ -846,7 +875,7 @@ protected:
     /**
      * Pointer to the AI agent attached to the Node.
      */
-    AIAgent* _agent;
+    mutable AIAgent* _agent;
 
     /**
      * World Matrix representation of the Node.

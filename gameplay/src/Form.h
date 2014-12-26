@@ -21,7 +21,7 @@ class Theme;
  *
  * This can also be attached on a scene Node to support 3D forms.
  *
- * @see http://blackberry.github.io/GamePlay/docs/file-formats.html#wiki-UI_Forms
+ * @see http://gameplay3d.github.io/GamePlay/docs/file-formats.html#wiki-UI_Forms
  */
 class Form : public Container
 {
@@ -94,6 +94,16 @@ public:
     static void clearFocus();
 
     /**
+     * Extends ScriptTarget::getTypeName() to return the type name of this class.
+     *
+     * Child controls should override this function to return the correct type name.
+     *
+     * @return The type name of this class: "Form"
+     * @see ScriptTarget::getTypeName()
+     */
+    const char* getTypeName() const;
+
+    /**
      * @see Container#isForm()
      */
     bool isForm() const;
@@ -118,11 +128,6 @@ public:
      * @return The nubmer of draw calls issued to draw the form.
      */
     unsigned int draw();
-
-    /**
-     * @see Control::getType
-     */
-    const char* getType() const;
 
     /**
      * Determines whether batching is enabled for this form.
@@ -201,11 +206,25 @@ private:
     static bool mouseEventInternal(Mouse::MouseEvent evt, int x, int y, int wheelDelta);
 
     /**
-     * Propagate gamepad events to enabled forms.
+     * Propagate gamepad button events to enabled forms.
      *
-     * @see Control::gamepadEvent
+     * @see Control::gamepadButtonEventInternal
      */
-    static bool gamepadEventInternal(Gamepad::GamepadEvent evt, Gamepad* gamepad, unsigned int analogIndex);
+    static bool gamepadButtonEventInternal(Gamepad* gamepad);
+
+    /**
+     * Propagate gamepad trigger events to enabled forms.
+     *
+     * @see Control::gamepadTriggerEventInternal
+     */
+    static bool gamepadTriggerEventInternal(Gamepad* gamepad, unsigned int index);
+
+    /**
+     * Propagate gamepad button events to enabled forms.
+     *
+     * @see Control::gamepadJoystickEventInternal
+     */
+    static bool gamepadJoystickEventInternal(Gamepad* gamepad, unsigned int index);
 
     /**
      * Fired by the platform when the game window resizes.
