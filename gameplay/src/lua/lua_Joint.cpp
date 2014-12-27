@@ -3208,7 +3208,7 @@ int lua_Joint_getSprite(lua_State* state)
             if ((lua_type(state, 1) == LUA_TUSERDATA))
             {
                 Joint* instance = getInstance(state);
-                void* returnPtr = (void*)instance->getSprite();
+                void* returnPtr = ((void*)instance->getSprite());
                 if (returnPtr)
                 {
                     gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
