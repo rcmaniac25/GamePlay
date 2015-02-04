@@ -17,6 +17,7 @@ int lua_HeightField_release(lua_State* state);
 int lua_HeightField_static_create(lua_State* state);
 int lua_HeightField_static_createFromImage(lua_State* state);
 int lua_HeightField_static_createFromRAW(lua_State* state);
+int lua_HeightField_static_createWithFunc(lua_State* state);
 
 void luaRegister_HeightField();
 

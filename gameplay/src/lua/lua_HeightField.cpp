@@ -8,6 +8,7 @@
 #include "HeightField.h"
 #include "Image.h"
 #include "Ref.h"
+#include "ScriptController.h"
 
 namespace gameplay
 {
@@ -30,6 +31,7 @@ void luaRegister_HeightField()
         {"create", lua_HeightField_static_create},
         {"createFromImage", lua_HeightField_static_createFromImage},
         {"createFromRAW", lua_HeightField_static_createFromRAW},
+        {"createWithFunc", lua_HeightField_static_createWithFunc},
         {NULL, NULL}
     };
     std::vector<std::string> scopePath;
@@ -623,6 +625,60 @@ int lua_HeightField_static_createFromRAW(lua_State* state)
         default:
         {
             lua_pushstring(state, "Invalid number of parameters (expected 3, 4 or 5).");
+            lua_error(state);
+            break;
+        }
+    }
+    return 0;
+}
+
+int lua_HeightField_static_createWithFunc(lua_State* state)
+{
+    // Get the number of parameters.
+    int paramCount = lua_gettop(state);
+
+    // Attempt to match the parameters to a valid binding.
+    switch (paramCount)
+    {
+        case 3:
+        {
+            if (lua_type(state, 1) == LUA_TNUMBER &&
+                lua_type(state, 2) == LUA_TNUMBER &&
+                (lua_type(state, 3) == LUA_TSTRING || lua_type(state, 3) == LUA_TNIL))
+            {
+                // Get parameter 1 off the stack.
+                unsigned int param1 = (unsigned int)luaL_checkunsigned(state, 1);
+
+                // Get parameter 2 off the stack.
+                unsigned int param2 = (unsigned int)luaL_checkunsigned(state, 2);
+
+                // Get parameter 3 off the stack.
+                const char* param3 = gameplay::ScriptUtil::getString(3, false);
+
+                void* returnPtr = (void*)HeightField::createWithFunc(param1, param2, param3);
+                if (returnPtr)
+                {
+                    gameplay::ScriptUtil::LuaObject* object = (gameplay::ScriptUtil::LuaObject*)lua_newuserdata(state, sizeof(gameplay::ScriptUtil::LuaObject));
+                    object->instance = returnPtr;
+                    object->owns = false;
+                    luaL_getmetatable(state, "HeightField");
+                    lua_setmetatable(state, -2);
+                }
+                else
+                {
+                    lua_pushnil(state);
+                }
+
+                return 1;
+            }
+
+            lua_pushstring(state, "lua_HeightField_static_createWithFunc - Failed to match the given parameters to a valid function signature.");
+            lua_error(state);
+            break;
+        }
+        default:
+        {
+            lua_pushstring(state, "Invalid number of parameters (expected 3).");
             lua_error(state);
             break;
         }

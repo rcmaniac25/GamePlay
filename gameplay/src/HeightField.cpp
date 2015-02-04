@@ -2,6 +2,8 @@
 #include "HeightField.h"
 #include "Image.h"
 #include "FileSystem.h"
+#include "Game.h"
+#include "ScriptController.h"
 
 namespace gameplay
 {
@@ -38,6 +40,25 @@ float normalizedHeightPacked(float r, float g, float b)
 HeightField* HeightField::createFromImage(const char* path, float heightMin, float heightMax)
 {
     return create(path, 0, 0, heightMin, heightMax);
+}
+
+HeightField* HeightField::createWithFunc(unsigned int rows, unsigned int columns, const char* heightFunction)
+{
+    ScriptController* sc = Game::getInstance()->getScriptController();
+
+    HeightField* heightfield = create(rows, columns);
+    float* heights = heightfield->getArray();
+
+    //Not really the greatest way to fill in a potentially very large heightmap...
+    for (unsigned int y = 0, i = 0; y < rows; ++y)
+    {
+        for (unsigned int x = 0; x < columns; ++x, ++i)
+        {
+            heights[i] = sc->executeFunction<float>(heightFunction, "uiui", x, y);
+        }
+    }
+
+    return heightfield;
 }
 
 HeightField* HeightField::createFromRAW(const char* path, unsigned int width, unsigned int height, float heightMin, float heightMax)

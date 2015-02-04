@@ -28,6 +28,34 @@ namespace gameplay
         static HeightField* create(unsigned int rows, unsigned int columns);
 
         /**
+         * Creates a new HeightField of the given dimensions, with the data filled in by a function.
+         * 
+         * @param rows Number of rows in the height field.
+         * @param columns Number of columns in the height field.
+         * @param instance The pointer to an instance of the object that contains heightFunction.
+         * @param heightFunction The pointer to the class method to call for each point within the height map creation.
+         *
+         * @return The new HeightField.
+         */
+        template <class T>
+        static HeightField* createWithFunc(unsigned int rows, unsigned int columns, T* instance, float (T::*heightFunction)(unsigned int, unsigned int));
+
+        /**
+         * Creates a new HeightField of the given dimensions, with the data filled in by a Lua function.
+         * 
+         * The heightFunction parameter must be a string containing the name of a
+         * valid Lua function that has a float return type and accepts a 
+         * two parameters of type unsigned int.
+         * 
+         * @param rows Number of rows in the height field.
+         * @param columns Number of columns in the height field.
+         * @param heightFunction The name of the Lua function to call for each point within the height map creation.
+         *
+         * @return The new HeightField.
+         */
+        static HeightField* createWithFunc(unsigned int rows, unsigned int columns, const char* heightFunction);
+
+        /**
          * Creates a HeightField from the specified heightfield image.
          *
          * The specified image path must refer to a valid heightfield image. Supported images are
@@ -134,6 +162,24 @@ namespace gameplay
         unsigned int _cols;
         unsigned int _rows;
     };
+
+    template <class T>
+    HeightField* HeightField::createWithFunc(unsigned int rows, unsigned int columns, T* instance, float (T::*heightFunction)(unsigned int, unsigned int))
+    {
+        HeightField* heightfield = create(rows, columns);
+        float* heights = heightfield->getArray();
+
+        //Not really the greatest way to fill in a potentially very large heightmap...
+        for (unsigned int y = 0, i = 0; y < rows; ++y)
+        {
+            for (unsigned int x = 0; x < columns; ++x, ++i)
+            {
+                heights[i] = (instance->*heightFunction)(x, y);
+            }
+        }
+
+        return heightfield;
+    }
 
 }
 
