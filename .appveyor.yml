@@ -4,7 +4,7 @@ branches:
 image: Visual Studio 2015
 environment:
   QTDIR: C:\Qt\5.10\msvc2015_64
-  VK_VERSION: 1.1.70.0
+  VK_VERSION: 1.1.73.0
   VK_INSTALLER: 'vulkdansdk_%VK_VERSION%.exe'
   VULKAN_SDK: 'C:\VulkanSDK\%VK_VERSION%'
   matrix:
